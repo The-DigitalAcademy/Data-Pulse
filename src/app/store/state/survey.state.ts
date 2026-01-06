@@ -2,12 +2,12 @@ import { survey } from "src/app/models/survey";
 
 export interface SurveyState {
   
-  selectedSurveyId: string | null;
+  selectedSurveyId: number | null;
   loading: boolean;
   error: string | null;
   editingSurvey: survey | null;
     // questions: [],
-    survey: survey[]
+  surveys: survey[]
 }
 
 // Initial state
@@ -16,5 +16,5 @@ export const initialSurveyState : SurveyState = {
     loading: false,
     error: null,
     editingSurvey: null,
-    survey: []
+    surveys: []
 };
