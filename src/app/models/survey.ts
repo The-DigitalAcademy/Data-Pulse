@@ -1,6 +1,6 @@
 import { question } from "./question";
 
-export interface survey{
+export interface survey {
     id: number;
     title: string;
     desc: string;
