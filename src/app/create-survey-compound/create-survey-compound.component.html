@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="create-survey-compound.component.css" />
+
+<!-- hearder -->
+<div class="div-container">
+<div class="create-survey">
+  <h2>Create Survey</h2>
+  <div class="inputs">
+  <div>
+    <!-- survey title -->
+    <input [(ngModel)]="title" type="text" placeholder="Survey Title" />
+    <br />
+    <!-- Description -->
+    <input [(ngModel)]="desc" type="text" placeholder="Description" />
+  </div>
+
+  <!-- Questions -->
+  <div class="questions">
+    <input [(ngModel)]="newQuestionText" type="text" placeholder="Question" />
+    <button (click)="addQuestion()" class="add-question">Add Question</button>
+  </div>
+
+    <br />
+    <!-- Options -->
+    <div class="optionDiv">
+      <input [(ngModel)]="newChoiceText" type="text" placeholder="Option" />
+      <button (click)="addOption()">Add option</button>
+    </div>
+  </div>
+
+  <!-- buttons -->
+
+  <div class="actions">
+    <button class="cancel" routerLink="/admin">Cancel</button>
+    <button (click)="submit()" class="save">Save</button>
+  </div>
+  
+<!-- display questions and options -->
+  <div  *ngFor="let question of questions">
+    <h5>{{question.text}}</h5>
+    <h5 *ngFor="let choice of question.choices">{{ choice.text }}</h5>
+  </div>
+</div>
+</div>

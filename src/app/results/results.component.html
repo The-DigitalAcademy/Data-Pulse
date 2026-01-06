@@ -1,0 +1,41 @@
+<!-- src/app/pages/results/results.component.html -->
+<div class="results-page">
+
+  <!-- Header / Title -->
+  <header class="results-header">
+    <h1 class="page-title">Survey Results</h1>
+    <button class="back-btn" routerLink="/admin">Back to Admin</button>
+  </header>
+
+  <!-- Main Content -->
+  <main class="results-container" *ngIf="closedSurveys.length > 0; else noResults">
+    <div class="results-list">
+      <div class="result-card" *ngFor="let survey of closedSurveys">
+
+        <!-- Survey Info -->
+        <div class="survey-info">
+          <h2 class="survey-title">{{ survey.title }}</h2>
+          <p class="survey-desc">
+            <span class="divider">|</span> {{ survey.desc }}
+          </p>
+          <span class="status-badge closed">Closed</span>
+        </div>
+
+        <!-- Action -->
+        <div class="action">
+          <button
+            class="view-btn"
+            [routerLink]="['/survey-detail', survey.id]">
+            View Results
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- No Closed Surveys -->
+  <ng-template #noResults>
+    <p class="no-data">No closed surveys with results yet.</p>
+  </ng-template>
+
+</div>

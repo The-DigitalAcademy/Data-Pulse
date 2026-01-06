@@ -1,0 +1,55 @@
+
+<div class="admin">
+
+  <div class="create-btn-div">
+    <button class="create-survey-btn" routerLink="/create-survey" (click)="isAdmin()">
+      Create Survey
+    </button>
+  </div>
+
+ 
+  <div class="admin-surveys-div">
+    <div class="admin-survey-div" *ngFor="let survey of data; let i = index">
+
+      
+      <div class="admin-survey-data-div">
+        <h1 class="admin-survey-title">{{ survey.title }}</h1>
+        <h2 class="admin-survey-desc">
+          <span class="divider">|</span> {{ survey.desc }}
+        </h2>
+        <span class="status-badge" [class.open]="survey.isOpen" [class.closed]="!survey.isOpen">
+          {{ survey.isOpen ? 'Open' : 'Closed' }}
+        </span>
+      </div>
+
+     
+      <div class="admin-survey-action-btn">
+        <button
+          class="admin-survey-post-btn"
+          [class.close-btn]="survey.isOpen"
+          [class.open-btn]="!survey.isOpen"
+          (click)="toggleOpenClose(survey, i - 1)">
+          {{ survey.isOpen ? 'Close' : 'Open' }}
+        </button>
+
+        <button
+          class="admin-survey-edit-btn"
+          [routerLink]="['/create-survey', survey.id -1]">
+          Edit
+        </button>
+
+        <button
+          class="admin-survey-delete-btn"
+          (click)="deleteItem(survey.id - 1, i - 1)">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Surveys Message -->
+  <ng-template #noSurveys>
+    <p class="no-surveys">No surveys available. Create one!</p>
+  </ng-template>
+
+</div>

@@ -1,0 +1,46 @@
+<div class="register-form-div">
+  <form class="register-form">
+
+    <h2>REGISTER</h2>
+
+    <div class="reg-form">
+
+      <div class="input">
+        <label>First Name</label>
+        <input [(ngModel)]="newUser.name" type="text" id="name" name="name" placeholder="First Name" class="inputVal">
+      </div>
+
+      <div class="input">
+        <label>Surname</label>
+        <input [(ngModel)]="newUser.surname" type="text" id="surname" name="surname" placeholder="Last Name" class="inputVal">
+      </div>
+
+
+      <div class="input"><label>Role</label>
+        <select [(ngModel)]="newUser.role" id="role" name="role" class="inputVal">
+          <option value="coordinator">Coordinator</option>
+          <option value="respondent">Respondent</option>
+        </select>
+      </div>
+
+
+      <div class="input"> <label>Email</label>
+        <input [(ngModel)]="newUser.email" type="email" id="email" name="email" placeholder="email" class="inputVal">
+      </div>
+
+
+      <div class="input"><label>Password</label>
+        <input [(ngModel)]="newUser.password" type="password" id="password" name="password" placeholder="password" class="inputVal">
+      </div>
+
+
+    </div>
+    <div class="register-btn">
+    <button (click)="register()" type="button" class="register">Register</button>
+
+    <div *ngIf="success" class="success">
+      Account Created! You can now <a routerLink="/login">Log In</a>
+    </div>
+ </div>
+  </form>
+</div>

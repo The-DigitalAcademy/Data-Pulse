@@ -1,0 +1,36 @@
+<div class="main-page">
+    <div class="topics">
+        <a href="https://en.wikipedia.org/wiki/Science_fiction" target="_blank">Sci-fi</a>
+        <a href="https://en.wikipedia.org/wiki/Romance_novel" target="_blank">Romance</a>
+        <a href="https://en.wikipedia.org/wiki/Action_film"  target="_blank">Action</a>
+        <a href="https://en.wikipedia.org/wiki/List_of_genres" target="_blank">Educational</a>
+        <a href="https://en.wikipedia.org/wiki/Historical_fiction" target="_blank">Historical</a>
+    </div>
+    <div class="main-page-section">
+        <div class="most-viewed-div" *ngFor="let newData of newData">
+            <h1 class="most-viewed-header">Closed Survey</h1>
+            <div class="most-viewed-survey-div">
+                <a class="most-viewed-survey-name">{{newData.title}}</a>
+                <p class="most-viewed-survey-status" (click)="check()">Closed</p>
+             </div>
+        </div>
+        <div class="open-surveys-div">
+            <div class="survey-open" *ngFor="let data of data">
+                <div>
+                    <img class="survey-img" src="https://wpengine.com/wp-content/uploads/2021/05/optimize-images-1024x681.jpg">
+                </div>
+                <a class="survey-link" [routerLink]="['/survey-fill', data.id]"><div class="survey-main-info">
+                   <h1>{{data.title}}</h1>
+                    <p>{{data.desc}}</p>
+                </div></a>
+                <div class="survey-info">
+                    <p>Sci-fi</p>
+                    <p class="created-on">21 Oct 2025</p>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+.login-div {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(https://st2.depositphotos.com/1008971/6542/v/450/depositphotos_65429197-stock-illustration-abstract-background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.Login-container
+ {
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 2px #07076e94;
+    width: 500px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+}
+
+.Login-container h1 {
+    margin: 50px;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: white;
+}
+.form-login input[type="submit"] {
+    width: 300px;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.Form-login button {
+    background-color: periwrinkle;
+    color: black;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+.form-login:hover {
+    background-color: plum;
+}
+.form-login.actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.form-login:hover {
+    background-color: rgb(35, 155, 35);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group input {
+    width: 300px;
+    height: 30px;
+    padding: 5px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.btn-signin {
+    width: 150px;
+    padding: 5px;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    border-style: none;
+    color: white;
+    cursor: pointer;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+background-color: #07076E;
+margin-bottom: 20px;
+}
+
+input {
+    margin-bottom: 15px;
+}
+
+.btn-signin:hover {
+    background-color: #ccccff;
+}
+
+h2 {
+    font-size: 1rem;
+}
