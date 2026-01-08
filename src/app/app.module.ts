@@ -23,6 +23,7 @@ import { AuthEffects } from './store/effects/auth.effects';
 import { SurveyEffects } from './store/effects/survey.effects';
 import { surveyReducer, surveysFeatureKey } from './store/reducers/survey.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment.development';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-      logOnly: true
+      logOnly: environment.production
     })
     
   ],
