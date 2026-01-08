@@ -3,7 +3,8 @@ import { user } from "src/app/models/user";
 export interface AuthState {
   loading: boolean;
   error: string | null;
-  user: Omit<user, "password">
+  user: Omit<user, "password">,
+  isAuthenticated: boolean
 }
 
 // Initial state
@@ -16,5 +17,6 @@ export const initialAuthState : AuthState = {
         name: '',
         surname: '',
         role: "respondent" // Default to respondent because it has lesser privileges
-    }
+    },
+    isAuthenticated: false
 };
