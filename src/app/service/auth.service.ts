@@ -1,7 +1,7 @@
 import { response } from './../models/response';
 import { Injectable } from '@angular/core';
 import { user } from '../models/user';
-import { Observable, map } from 'rxjs';
+import { EMPTY, Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
@@ -43,8 +43,10 @@ export class AuthService {
   }
 
   //logout
-  logout(): void{
-     localStorage.removeItem('current_user');
+  logout(): Observable<any> {
+     localStorage.removeItem('current_user'); // previous implementation
+     // new implementation will use ngrx.
+     return EMPTY;
   }
 
   //get current user
