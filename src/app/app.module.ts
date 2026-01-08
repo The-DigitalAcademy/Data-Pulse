@@ -22,6 +22,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/effects/auth.effects';
 import { SurveyEffects } from './store/effects/survey.effects';
 import { surveyReducer, surveysFeatureKey } from './store/reducers/survey.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,12 @@ import { surveyReducer, surveysFeatureKey } from './store/reducers/survey.reduce
       [surveysFeatureKey]: surveyReducer
     }),
 
-    EffectsModule.forRoot([AuthEffects, SurveyEffects])
+    EffectsModule.forRoot([AuthEffects, SurveyEffects]),
+
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: true
+    })
     
   ],
   providers: [],
