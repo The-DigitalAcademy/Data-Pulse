@@ -24,7 +24,7 @@ export class FormLogin {
   login() {
     console.log(this.email, this.password);
     if(!this.email || !this.password)
-      throwError(() => new Error('Fill in all fields'));
+      throwError(() => new Error('Information entered is incorrect'));
 
     this.auth.login(this.email, this.password).subscribe({
       next: (user) => {

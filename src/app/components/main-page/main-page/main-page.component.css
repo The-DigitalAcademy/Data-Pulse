@@ -35,7 +35,7 @@
     flex-direction: column;
     border-style: solid;
     border-width: 1px;
-    box-shadow: 0px 0px 5px 1px #07076E;
+    box-shadow: 0px 0px 5px 1px #374002;
     max-height: 800px;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .most-viewed-survey-status {
-    background-color: #07076E;
+    background-color: #037400;
     color: white;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     margin-left: 20px;
