@@ -37,8 +37,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  box-shadow: 0px 0px 5px 2px #07076e4e;
-  border-style: solid;
+  border-style: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
   width: 45vw;
   margin-bottom: 25px;
 }
