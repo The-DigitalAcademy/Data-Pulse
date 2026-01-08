@@ -18,7 +18,7 @@ return store.select (AuthSelector.selectIsAuthenticated).pipe(
       if (isAuthenticated) {
         return true;
       } else {
-        return router.createUrlTree(['/auth']);
+        return router.createUrlTree(['/login']);
       }
     })
   );
