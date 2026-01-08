@@ -16,6 +16,14 @@ import { CreateSurveyCompoundComponent } from './create-survey-compound/create-s
 import { SurveyDetailsComponent } from './survey-details/survey-details.component';
 import { SurveyComponent } from './component/survey-fill/survey/survey.component';
 import { RegisterPageComponent } from './component/register-page/register-page.component';
+import { StoreModule } from '@ngrx/store';
+import { authFeatureKey, authReducer } from './store/reducers/auth.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './store/effects/auth.effects';
+import { SurveyEffects } from './store/effects/survey.effects';
+import { surveyReducer, surveysFeatureKey } from './store/reducers/survey.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment.development';
 
 @NgModule({
   declarations: [
@@ -38,7 +46,20 @@ import { RegisterPageComponent } from './component/register-page/register-page.c
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, {dataEncapsulation: false}
     ),
-    RouterModule 
+    RouterModule,
+
+    StoreModule.forRoot({
+      [authFeatureKey]: authReducer,
+      [surveysFeatureKey]: surveyReducer
+    }),
+
+    EffectsModule.forRoot([AuthEffects, SurveyEffects]),
+
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    })
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
