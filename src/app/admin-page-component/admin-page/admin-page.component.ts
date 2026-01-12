@@ -1,7 +1,7 @@
 // src/app/pages/admin-page/admin-page.component.ts
 import { Component, OnInit } from '@angular/core';
 import { SurveyService } from 'src/app/service/survey.service';
-import { survey } from 'src/app/models/survey';
+import { Survey } from 'src/app/models/survey';
 
 @Component({
   selector: 'app-admin-page',
@@ -9,7 +9,7 @@ import { survey } from 'src/app/models/survey';
   styleUrls: ['./admin-page.component.css'],
 })
 export class AdminPageComponent implements OnInit {
-  data: survey[] = [];
+  data: Survey[] = [];
 
   constructor(private surveyService: SurveyService) {}
 
@@ -24,7 +24,7 @@ export class AdminPageComponent implements OnInit {
     });
   }
 
-  toggleOpenClose(survey: survey, index: number): void {
+  toggleOpenClose(survey: Survey, index: number): void {
     const action$ = survey.isOpen
       ? this.surveyService.closeSurvey(survey)
       : this.surveyService.openSurvey(survey);

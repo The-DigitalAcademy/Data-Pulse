@@ -6,12 +6,12 @@ import {
   STATUS,
   RequestCore,
 } from 'angular-in-memory-web-api';
-import { survey } from '../models/survey';
-import { user } from '../models/user';
-import { question } from '../models/question';
-import { choice } from '../models/choice';
-import { response } from '../models/response';
-import { results } from '../models/result';
+import { Survey } from '../models/survey';
+import { User } from '../models/user';
+import { Question } from '../models/question';
+import { Choice } from '../models/choice';
+import { Response } from '../models/response';
+import { Results } from '../models/result';
 
 const DB_KEY = 'angular-in-memory-db';
 
@@ -22,7 +22,7 @@ export class InMemoryDataService implements InMemoryDbService {
     if (persisted) return persisted;
 
     // ------------------- USERS -------------------
-    const users: user[] = [
+    const users: User[] = [
       { id: 'u1', name: 'John', surname: 'Doe', email: 'john@example.com', role: 'coordinator', password: 'pass' },
       { id: 'u2', name: 'Jane', surname: 'Smith', email: 'jane@example.com', role: 'respondent', password: 'pass' },
       { id: 'u3', name: 'Bob', surname: 'Lee', email: 'bob@example.com', role: 'respondent', password: 'pass' },
@@ -30,7 +30,7 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     // ------------------- CHOICES -------------------
-    const choices: choice[] = [
+    const choices: Choice[] = [
       // Q1
       { id: 1, text: 'Very Satisfied' },
       { id: 2, text: 'Satisfied' },
@@ -48,7 +48,7 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     // ------------------- QUESTIONS -------------------
-    const questions: question[] = [
+    const questions: Question[] = [
       {
         id: 1,
         text: 'How satisfied are you with our service?',
@@ -67,7 +67,7 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     // ------------------- SURVEYS -------------------
-    const surveys: survey[] = [
+    const surveys: Survey[] = [
       {
         id: 1,
         title: 'Customer Satisfaction Survey',
@@ -99,7 +99,7 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     // ------------------- RESPONSES -------------------
-    const responses: response[] = [
+    const responses: Response[] = [
       {
         id: 1,
         surveyId: 1,
@@ -189,7 +189,7 @@ export class InMemoryDataService implements InMemoryDbService {
     const payload = reqInfo.utils.getJsonBody(reqInfo.req);
 
     if (collectionName === 'users') {
-      const newUser = { ...payload, id: Date.now().toString() } as user;
+      const newUser = { ...payload, id: Date.now().toString() } as User;
       db.users = [...(db.users || []), newUser];
       this.saveToStorage(db);
       return this.respond({ body: newUser, status: STATUS.CREATED }, reqInfo);
@@ -199,7 +199,7 @@ export class InMemoryDataService implements InMemoryDbService {
       const newSurvey = {
         ...payload,
         id: this.genId(db.surveys || []),
-      } as survey;
+      } as Survey;
       console.log("Survey in the db: ", newSurvey)
       db.surveys = [...(db.surveys || []), newSurvey];
       this.saveToStorage(db);
@@ -211,7 +211,7 @@ export class InMemoryDataService implements InMemoryDbService {
       const newResp = {
         ...payload,
         id: this.genId(db.responses || []),
-      } as response;
+      } as Response;
       db.responses = [...(db.responses || []), newResp];
       db.results = this.computeResults(db.surveys, db.responses, db.questions, db.choices);
       this.saveToStorage(db);
@@ -228,9 +228,9 @@ export class InMemoryDataService implements InMemoryDbService {
     const { collectionName, id } = reqInfo;
     if (collectionName === 'survey' && id) {
       const db = this.loadFromStorage() || {};
-      const payload = reqInfo.utils.getJsonBody(reqInfo.req) as survey;
+      const payload = reqInfo.utils.getJsonBody(reqInfo.req) as Survey;
       const rawID = Number(id);
-      db.surveys = (db.surveys || []).map((s: survey) => (s.id === rawID ? payload : s));
+      db.surveys = (db.surveys || []).map((s: Survey) => (s.id === rawID ? payload : s));
       this.saveToStorage(db);
       return this.respond({ body: payload, status: STATUS.OK }, reqInfo);
     }
@@ -246,7 +246,7 @@ export class InMemoryDataService implements InMemoryDbService {
       const db = this.loadFromStorage() || {};
       const patch = reqInfo.utils.getJsonBody(reqInfo.req);
       const rawID = Number(id);
-      const survey = (db.surveys || []).find((s: survey) => s.id === rawID);
+      const survey = (db.surveys || []).find((s: Survey) => s.id === rawID);
       if (!survey) return this.respond({ status: STATUS.NOT_FOUND }, reqInfo);
 
       Object.assign(survey, patch);
@@ -265,7 +265,7 @@ export class InMemoryDataService implements InMemoryDbService {
     if (collectionName === 'survey' && id) {
       const db = this.loadFromStorage() || {};
       const rawID = Number(id);
-      db.surveys = (db.surveys || []).filter((s: survey) => s.id !== rawID);
+      db.surveys = (db.surveys || []).filter((s: Survey) => s.id !== rawID);
       this.saveToStorage(db);
       return this.respond({ status: STATUS.NO_CONTENT }, reqInfo);
     }
@@ -290,15 +290,15 @@ export class InMemoryDataService implements InMemoryDbService {
   // Compute results
   // ------------------------------------------------------------------
   private computeResults(
-    surveys: survey[],
-    responses: response[],
-    questions: question[],
-    choices: choice[]
-  ): results[] {
+    surveys: Survey[],
+    responses: Response[],
+    questions: Question[],
+    choices: Choice[]
+  ): Results[] {
     const questionMap = new Map(questions.map(q => [q.id, q]));
     const choiceMap = new Map(choices.map(c => [c.id, c]));
 
-    const resultMap = new Map<number, results>();
+    const resultMap = new Map<number, Results>();
 
     surveys
       .filter(s => !s.isOpen)
