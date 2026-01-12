@@ -19,7 +19,7 @@ export class AuthEffects {
       ofType(AuthActions.loginUser),
       switchMap(({ email, password }) =>
         this.authService.login(email, password).pipe(
-          map((user) => AuthActions.loginUserSuccess({ user })),
+          map((User) => AuthActions.loginUserSuccess({ User })),
           catchError((error) =>
             of(AuthActions.loginUserFailure({ error: error.message || 'Login failed' }))
           )
@@ -72,7 +72,7 @@ export class AuthEffects {
         switchMap(({user}) => 
           this.authService.register(user).pipe(
             // if user successfully resgistered, login user once.
-            map((user) => AuthActions.loginUserSuccess({user})),
+            map((user) => AuthActions.loginUserSuccess({User:user})),
             catchError((error) => 
             of(AuthActions.registerUserFailure({ error: error.message || 'User registration failed' })))
           )

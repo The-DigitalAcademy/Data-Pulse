@@ -1,9 +1,9 @@
-import { user } from "src/app/models/user";
+import { User } from "src/app/models/user";
 
 export interface AuthState {
   loading: boolean;
   error: string | null;
-  user: Omit<user, "password">,
+  user: Omit<User, "password">,
   isAuthenticated: boolean
 }
 

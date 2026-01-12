@@ -1,6 +1,6 @@
-import { response } from './../models/response';
+import { Response } from './../models/response';
 import { Injectable } from '@angular/core';
-import { user, UserDto } from '../models/user';
+import { User } from '../models/user';
 import { EMPTY, Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
@@ -16,8 +16,8 @@ export class AuthService {
 
   //accessing the endpoints
   //register function
-  register(newUser: user): Observable<UserDto> {
-    const registerUser: user = {
+  register(newUser: User): Observable<User>{
+    const registerUser: User = {
       id: Date.now().toString(),
       email: newUser.email,
       name: newUser.name,
@@ -25,12 +25,22 @@ export class AuthService {
       role: newUser.role,
       password: newUser.password
     }
-    return this.http.post<UserDto>(`${this.url}/auth/respondent`, registerUser);
+
+    return this.http.post<User>(this.url, registerUser);
   }
 
   //login function
-  login(email: string, password: string): Observable<UserDto> {
-    return this.http.post<UserDto>(`${this.url}/auth/login`, {email, password});
+  login(email: string, password: string): Observable<User> {
+    return this.getAllUsers().pipe(
+      map((users: User[]) => {
+        const foundUser = users.find((user) => user.email === email && user.password === password) ?? null;
+        if (!foundUser) {
+          throw new Error('User does not exist');
+        }
+        localStorage.setItem('current_user', JSON.stringify(foundUser));
+        return foundUser;
+      })
+    );
   }
 
   //logout
@@ -41,13 +51,13 @@ export class AuthService {
   }
 
   //get current user
-  getCurrentUser(): user | null {
+  getCurrentUser(): User | null {
     const data = localStorage.getItem('current_user');
     return data ? JSON.parse(data) : null;
   }
 
   //get all users
-  getAllUsers(): Observable<user[]>{
-    return this.http.get<user[]>(this.url)
+  getAllUsers(): Observable<User[]>{
+    return this.http.get<User[]>(this.url)
   }
 }

@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as UserActions from '../../../store/actions/auth.actions';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from 'src/app/service/auth.service';
-
 
 @Component({
   imports: [ReactiveFormsModule, CommonModule],
@@ -24,8 +21,7 @@ export class FormLogin {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store,
-    private auth: AuthService
+    private store: Store
   ) {
       this.loginForm = this.fb.group({
       email: ['', [Validators.email]],

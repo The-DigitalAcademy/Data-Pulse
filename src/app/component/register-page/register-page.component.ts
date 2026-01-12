@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as UserActions from '../../store/actions/auth.actions';
-import { user } from 'src/app/models/user';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-register-page',
@@ -37,7 +37,7 @@ export class RegisterPageComponent implements OnInit {
       return;
     }
 
-    const newUser: user = {
+    const newUser: User = {
       id: '',
       name: this.registerForm.value.name,
       surname: this.registerForm.value.surname,

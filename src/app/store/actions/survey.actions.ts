@@ -1,9 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { survey } from 'src/app/models/survey';
+import { Survey } from 'src/app/models/survey';
 
 export const createSurvey = createAction(
   '[Survey Page] Create Survey',
-  props<{ survey: Omit<survey, 'id' | 'createdAt'> }>()
+  props<{ survey: Omit<Survey, 'id' | 'createdAt'> }>()
 );
 
 export const loadSurveys = createAction(
@@ -12,7 +12,7 @@ export const loadSurveys = createAction(
 
 export const loadSurveysSuccess = createAction(
   '[Survey Page] Load Success',
-  props<{surveys: survey[]}>()
+  props<{surveys: Survey[]}>()
 );
 
 export const loadSurveysFailure = createAction(
@@ -27,7 +27,7 @@ export const loadSurvey = createAction(
 );
 export const loadSurveySuccess = createAction(
   '[Survey] Load Survey Success',
-  props<{ survey: survey }>()
+  props<{ survey: Survey }>()
 );
 export const loadSurveyFailure = createAction(
   '[Survey] Load Survey Failure',
@@ -36,7 +36,7 @@ export const loadSurveyFailure = createAction(
 
 export const createSurveySuccess = createAction(
   '[Survey] Create Survey Success',
-  props<{ survey: survey }>()
+  props<{ survey: Survey }>()
 );
 export const createSurveyFailure = createAction(
   '[Survey] Create Survey Failure',
@@ -46,11 +46,11 @@ export const createSurveyFailure = createAction(
 // Update Survey
 export const updateSurvey = createAction(
   '[Survey] Update Survey',
-  props<{ id: number; changes: Partial<survey> }>()
+  props<{ id: number; changes: Partial<Survey> }>()
 );
 export const updateSurveySuccess = createAction(
   '[Survey] Update Survey Success',
-  props<{ survey: survey }>()
+  props<{ survey: Survey }>()
 );
 export const updateSurveyFailure = createAction(
   '[Survey] Update Survey Failure',
