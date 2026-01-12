@@ -33,7 +33,7 @@ export const registerUserFailure = createAction(
 );
 
 export const logoutUser = createAction(
-    "[Auth API] "
+    "[Auth API] logging user out."
 );
 
 export const logoutUserSuccess = createAction(
@@ -41,6 +41,6 @@ export const logoutUserSuccess = createAction(
 );
 
 export const logoutUserFailure = createAction(
-    "[Auth API]  ",
+    "[Auth API]  logout failure",
     props<{error: any}>()
 );

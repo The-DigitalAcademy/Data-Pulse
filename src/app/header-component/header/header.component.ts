@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User, UserDto } from 'src/app/models/user';
 import { AuthService } from 'src/app/service/auth.service';
 import { selectCurrentUser, selectIsAuthenticated } from '../../store/selectors/auth.selector';
+import { logoutUser } from '../../store/actions/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -28,10 +29,8 @@ export class HeaderComponent implements OnInit {
     this.currentUser = this.authService.getCurrentUser();
     this.isCoordinator = this.currentUser?.role === 'COORDINATOR';
   }
+  
   logout(): void {
-    this.authService.logout();
-    this.currentUser = null;
-    this.isCoordinator = false;
-    this.router.navigate(['/login']);
+    this.store.dispatch(logoutUser());
   }
 }

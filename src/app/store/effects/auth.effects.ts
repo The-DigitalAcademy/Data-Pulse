@@ -4,9 +4,11 @@ import { switchMap, map, catchError, of, tap } from "rxjs";
 import { AuthService } from "src/app/service/auth.service";
 import * as AuthActions from '../actions/auth.actions';
 import { Injectable } from "@angular/core";
+import { authFeatureKey } from '../reducers/auth.reducers';
 
 @Injectable()
 export class AuthEffects {
+
     
     constructor(
       private actions$: Actions,
@@ -59,6 +61,8 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logoutUserSuccess),
         tap(() => {
+          // localStorage.removeItem(authFeatureKey);
+          localStorage.clear();
           this.router.navigate(['/login']);
         })
       ),

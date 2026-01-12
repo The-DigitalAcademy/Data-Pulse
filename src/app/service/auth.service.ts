@@ -1,7 +1,7 @@
 import { Response } from './../models/response';
 import { Injectable } from '@angular/core';
 import { User, UserDto } from '../models/user';
-import { EMPTY, Observable, map } from 'rxjs';
+import { EMPTY, Observable, map, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 @Injectable({
@@ -36,9 +36,9 @@ export class AuthService {
 
   //logout
   logout(): Observable<any> {
-     localStorage.removeItem('current_user'); // previous implementation
-     // new implementation will use ngrx.
-     return EMPTY;
+     // use of operator, this will emmit value.
+     // EMPTY observable doesnt (previous error.) 
+     return of({ success: true });
   }
 
   //get current user
