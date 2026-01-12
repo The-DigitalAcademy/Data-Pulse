@@ -7,16 +7,13 @@ import { HeaderComponent } from './header-component/header/header.component';
 import { ResultsComponent } from './results/results.component';
 import { MainPageComponent } from './components/main-page/main-page/main-page.component';
 import { AdminPageComponent } from './admin-page-component/admin-page/admin-page.component';
-import { FormLogin } from './login-page/component/form-login/form-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './service/in-memory-data.service';
 import { CreateSurveyCompoundComponent } from './create-survey-compound/create-survey-compound.component';
 import { SurveyDetailsComponent } from './survey-details/survey-details.component';
 import { SurveyComponent } from './component/survey-fill/survey/survey.component';
 import { RegisterPageComponent } from './component/register-page/register-page.component';
-import { StoreModule } from '@ngrx/store';
+import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 import { authFeatureKey, authReducer } from './store/reducers/auth.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/effects/auth.effects';
@@ -24,6 +21,18 @@ import { SurveyEffects } from './store/effects/survey.effects';
 import { surveyReducer, surveysFeatureKey } from './store/reducers/survey.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment.development';
+import { localStorageSync } from 'ngrx-store-localstorage';
+
+// Meta-reducer to sync state with localStorage
+function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return localStorageSync({
+    keys: [authFeatureKey, surveysFeatureKey], // Persist both auth and surveys
+    rehydrate: true,                            // Restore state from localStorage on app load
+    storage: window.localStorage
+  })(reducer);
+}
+
+const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 
 @NgModule({
   declarations: [
@@ -48,7 +57,7 @@ import { environment } from 'src/environments/environment.development';
     StoreModule.forRoot({
       [authFeatureKey]: authReducer,
       [surveysFeatureKey]: surveyReducer
-    }),
+    }, {metaReducers}),
 
     EffectsModule.forRoot([AuthEffects, SurveyEffects]),
 

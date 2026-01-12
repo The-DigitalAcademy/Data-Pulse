@@ -22,7 +22,7 @@ export const selectCurrentUser = createSelector(
 
 export const selectIsAuthenticated = createSelector(
   selectAuthState,
-  (state) => state.user
+  (state) => state.isAuthenticated
 );
 
 // --
@@ -60,10 +60,10 @@ export const selectUserRole = createSelector(
 // Role-based selectors
 export const selectIsRespondent = createSelector(
   selectUserRole,
-  (role) => role === 'respondent'
+  (role) => role === 'RESPONDENT'
 );
 
 export const selectIsAdmin = createSelector(
   selectUserRole,
-  (role) => role === 'coordinator'
+  (role) => role === 'COORDINATOR'
 );
