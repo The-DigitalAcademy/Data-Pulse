@@ -8,7 +8,7 @@ import { ResultsComponent } from './results/results.component';
 import { MainPageComponent } from './components/main-page/main-page/main-page.component';
 import { AdminPageComponent } from './admin-page-component/admin-page/admin-page.component';
 import { FormLogin } from './login-page/component/form-login/form-login';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './service/in-memory-data.service';
@@ -29,7 +29,6 @@ import { environment } from 'src/environments/environment.development';
   declarations: [
     AppComponent,
     RegisterPageComponent,
-    FormLogin,
     SurveyComponent,
     SurveyDetailsComponent,
     HeaderComponent,
@@ -42,10 +41,8 @@ import { environment } from 'src/environments/environment.development';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, {dataEncapsulation: false}
-    ),
     RouterModule,
 
     StoreModule.forRoot({
