@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { user } from 'src/app/models/user';
-import { AuthService } from 'src/app/service/auth.service';
+import * as UserActions from '../../store/actions/auth.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-register-page',
@@ -23,8 +23,7 @@ export class RegisterPageComponent {
   error = '';
 
   constructor(
-    private readonly auth: AuthService,
-    private readonly router: Router
+    private store: Store
   ){}
 
   register() {
@@ -32,18 +31,7 @@ export class RegisterPageComponent {
     if(!this.newUser.name || !this.newUser.surname || !this.newUser.email || !this.newUser.password)
       throwError(() => new Error("Fields are invalid"));
 
-    this.auth.register(this.newUser).subscribe({
-      next: (user) => {
-        this.loading = false;
-        this.success = true;
-        console.log('Registration for user: ', this.newUser);
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = err.message || 'Registration failed'
-        console.log('Registration failed');
-      }
-    });
+    this.store.dispatch(UserActions.registerUser({ newuser : this.newUser}));
+
   }
 }

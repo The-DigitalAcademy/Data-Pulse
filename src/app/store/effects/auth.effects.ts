@@ -65,4 +65,19 @@ export class AuthEffects {
     { dispatch: false }
   );
 
+  // Register effects
+  register$ = createEffect(
+    () => this.actions$.pipe(
+        ofType(AuthActions.registerUser),
+        switchMap(({user}) => 
+          this.authService.register(user).pipe(
+            // if user successfully resgistered, login user once.
+            map((user) => AuthActions.loginUserSuccess({user})),
+            catchError((error) => 
+            of(AuthActions.registerUserFailure({ error: error.message || 'User registration failed' })))
+          )
+        )
+      )
+  )
+
 }

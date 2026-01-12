@@ -6,3 +6,5 @@ export interface user {
     role: 'coordinator' | 'respondent';
     password: string;
 }
+
+export type UserDto = Omit<user, 'password'>;

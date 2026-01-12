@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { user } from 'src/app/models/user';
-import { AuthService } from 'src/app/service/auth.service';
-import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as UserActions from '../../../store/actions/auth.actions';
 
 @Component({
   selector: 'app-form-login',
@@ -17,8 +16,7 @@ export class FormLogin {
   error = '';
 
   constructor(
-    private readonly auth: AuthService,
-    private readonly router: Router
+    private store: Store
   ) {}
 
   login() {
@@ -26,18 +24,7 @@ export class FormLogin {
     if(!this.email || !this.password)
       throwError(() => new Error('Information entered is incorrect'));
 
-    this.auth.login(this.email, this.password).subscribe({
-      next: (user) => {
-        this.loading = false;
-        this.success = true;
-        console.log("Login information for...", user);
-        this.router.navigate(['/home']);
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = err.message || 'Failed to login';
-        console.log('Login failed', this.error);
-      }
-     })
+    this.store.dispatch(UserActions.loginUser({email:this.email, password:this.password}));
+
   }
 }

@@ -1,21 +1,22 @@
 import { response } from './../models/response';
 import { Injectable } from '@angular/core';
-import { user } from '../models/user';
+import { user, UserDto } from '../models/user';
 import { EMPTY, Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private url = environment.baseUrl;
 
 
   //constructor and inject the HttpClient
   constructor(private readonly http: HttpClient ){ }
 
   //accessing the endpoints
-  private readonly url = '/api/users';
   //register function
-  register(newUser: user): Observable<user>{
+  register(newUser: user): Observable<UserDto>{
     const registerUser: user = {
       id: Date.now().toString(),
       email: newUser.email,
@@ -25,21 +26,12 @@ export class AuthService {
       password: newUser.password
     }
 
-    return this.http.post<user>(this.url, registerUser);
+    return this.http.post<UserDto>(`${this.url}/auth/register`, registerUser);
   }
 
   //login function
-  login(email: string, password: string): Observable<user> {
-    return this.getAllUsers().pipe(
-      map((users: user[]) => {
-        const foundUser = users.find((user) => user.email === email && user.password === password) ?? null;
-        if (!foundUser) {
-          throw new Error('User does not exist');
-        }
-        localStorage.setItem('current_user', JSON.stringify(foundUser));
-        return foundUser;
-      })
-    );
+  login(email: string, password: string): Observable<UserDto> {
+    return this.http.post<UserDto>(`${this.url}/auth`, {email, password});
   }
 
   //logout
