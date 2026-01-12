@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { user, UserDto } from '../models/user';
 import { EMPTY, Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.development';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,11 +12,11 @@ export class AuthService {
 
 
   //constructor and inject the HttpClient
-  constructor(private readonly http: HttpClient ){ }
+  constructor(private http: HttpClient ){ }
 
   //accessing the endpoints
   //register function
-  register(newUser: user): Observable<UserDto>{
+  register(newUser: user): Observable<UserDto> {
     const registerUser: user = {
       id: Date.now().toString(),
       email: newUser.email,
@@ -25,13 +25,12 @@ export class AuthService {
       role: newUser.role,
       password: newUser.password
     }
-
-    return this.http.post<UserDto>(`${this.url}/auth/register`, registerUser);
+    return this.http.post<UserDto>(`${this.url}/auth/respondent`, registerUser);
   }
 
   //login function
   login(email: string, password: string): Observable<UserDto> {
-    return this.http.post<UserDto>(`${this.url}/auth`, {email, password});
+    return this.http.post<UserDto>(`${this.url}/auth/login`, {email, password});
   }
 
   //logout
