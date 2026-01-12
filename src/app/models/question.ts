@@ -1,7 +1,7 @@
-import { choice } from "./choice";
+import { Choice } from "./choice";
 
-export interface question {
+export interface Question {
   id: number;
   text: string;
-  choices: choice[];
+  choices: Choice[];
 }

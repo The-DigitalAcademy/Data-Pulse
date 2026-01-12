@@ -1,4 +1,4 @@
-export interface results {
+export interface Results {
     questionID: number;
     questionText: string;
     answers: {

@@ -1,3 +1,3 @@
-import { results } from "./result";
+import { Results } from "./result";
 
-export type surveyResults = results[];
+export type surveyResults = Results[];

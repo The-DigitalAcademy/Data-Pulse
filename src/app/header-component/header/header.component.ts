@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { user } from 'src/app/models/user';
+import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/service/auth.service';
   standalone: false
 })
 export class HeaderComponent implements OnInit{
-  currentUser: user | null = null;
+  currentUser: User | null = null;
   isCoordinator: boolean = false;
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit(): void {

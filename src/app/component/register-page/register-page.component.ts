@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
-import { user } from 'src/app/models/user';
+import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./register-page.component.css']
 })
 export class RegisterPageComponent {
-  newUser : user = {
+  newUser : User = {
     id: '',
     name: '',
     surname: '',

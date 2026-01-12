@@ -1,6 +1,6 @@
-import { response } from './../models/response';
+import { Response } from './../models/response';
 import { Injectable } from '@angular/core';
-import { user } from '../models/user';
+import { User } from '../models/user';
 import { EMPTY, Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 @Injectable({
@@ -15,8 +15,8 @@ export class AuthService {
   //accessing the endpoints
   private readonly url = '/api/users';
   //register function
-  register(newUser: user): Observable<user>{
-    const registerUser: user = {
+  register(newUser: User): Observable<User>{
+    const registerUser: User = {
       id: Date.now().toString(),
       email: newUser.email,
       name: newUser.name,
@@ -25,13 +25,13 @@ export class AuthService {
       password: newUser.password
     }
 
-    return this.http.post<user>(this.url, registerUser);
+    return this.http.post<User>(this.url, registerUser);
   }
 
   //login function
-  login(email: string, password: string): Observable<user> {
+  login(email: string, password: string): Observable<User> {
     return this.getAllUsers().pipe(
-      map((users: user[]) => {
+      map((users: User[]) => {
         const foundUser = users.find((user) => user.email === email && user.password === password) ?? null;
         if (!foundUser) {
           throw new Error('User does not exist');
@@ -50,13 +50,13 @@ export class AuthService {
   }
 
   //get current user
-  getCurrentUser(): user | null {
+  getCurrentUser(): User | null {
     const data = localStorage.getItem('current_user');
     return data ? JSON.parse(data) : null;
   }
 
   //get all users
-  getAllUsers(): Observable<user[]>{
-    return this.http.get<user[]>(this.url)
+  getAllUsers(): Observable<User[]>{
+    return this.http.get<User[]>(this.url)
   }
 }

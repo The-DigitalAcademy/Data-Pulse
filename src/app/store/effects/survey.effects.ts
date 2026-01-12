@@ -3,7 +3,7 @@ import { SurveyService } from 'src/app/service/survey.service';
 import * as SurveyActions from '../actions/survey.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, of, mergeMap } from 'rxjs';
-import { survey } from 'src/app/models/survey';
+import { Survey } from 'src/app/models/survey';
 
 @Injectable()
 export class SurveyEffects {
@@ -47,7 +47,7 @@ export class SurveyEffects {
     this.actions$.pipe(
       ofType(SurveyActions.updateSurvey),
       switchMap(({ id, changes }) => {
-        const survey: survey = {
+        const survey: Survey = {
           id: id,
           title: changes.title!,
           desc: changes.desc!,
