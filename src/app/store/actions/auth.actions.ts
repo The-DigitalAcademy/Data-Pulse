@@ -16,8 +16,24 @@ export const loginUserFailure = createAction(
     props<{error: any}>()
 );
 
+// register actions
+export const registerUser = createAction(
+    "[Auth API] login ",
+    props<{user: User}>()
+);
+
+export const registerUserSuccess = createAction(
+    "[Auth API]  register success",
+    props<{user: Omit<User, 'password'>}>()
+);
+
+export const registerUserFailure = createAction(
+    "[Auth API]  register failure",
+    props<{error: any}>()
+);
+
 export const logoutUser = createAction(
-    "[Auth API] "
+    "[Auth API] logging user out."
 );
 
 export const logoutUserSuccess = createAction(
@@ -25,6 +41,6 @@ export const logoutUserSuccess = createAction(
 );
 
 export const logoutUserFailure = createAction(
-    "[Auth API]  ",
+    "[Auth API]  logout failure",
     props<{error: any}>()
 );

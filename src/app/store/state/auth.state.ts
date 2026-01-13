@@ -16,7 +16,7 @@ export const initialAuthState : AuthState = {
         email: '',
         name: '',
         surname: '',
-        role: "respondent" // Default to respondent because it has lesser privileges
+        role: "RESPONDENT" // Default to respondent because it has lesser privileges
     },
     isAuthenticated: false
 };

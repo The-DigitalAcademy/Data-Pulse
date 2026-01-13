@@ -1,19 +1,20 @@
 import { Response } from './../models/response';
 import { Injectable } from '@angular/core';
-import { User } from '../models/user';
-import { EMPTY, Observable, map } from 'rxjs';
+import { User, UserDto } from '../models/user';
+import { EMPTY, Observable, map, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment.development';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private url = environment.baseUrl;
 
 
   //constructor and inject the HttpClient
-  constructor(private readonly http: HttpClient ){ }
+  constructor(private http: HttpClient ){ }
 
   //accessing the endpoints
-  private readonly url = '/api/users';
   //register function
   register(newUser: User): Observable<User>{
     const registerUser: User = {
@@ -29,24 +30,15 @@ export class AuthService {
   }
 
   //login function
-  login(email: string, password: string): Observable<User> {
-    return this.getAllUsers().pipe(
-      map((users: User[]) => {
-        const foundUser = users.find((user) => user.email === email && user.password === password) ?? null;
-        if (!foundUser) {
-          throw new Error('User does not exist');
-        }
-        localStorage.setItem('current_user', JSON.stringify(foundUser));
-        return foundUser;
-      })
-    );
+  login(email: string, password: string): Observable<UserDto> {
+    return this.http.post<UserDto>(`${this.url}/auth/login`, {email, password});
   }
 
   //logout
   logout(): Observable<any> {
-     localStorage.removeItem('current_user'); // previous implementation
-     // new implementation will use ngrx.
-     return EMPTY;
+     // use of operator, this will emmit value.
+     // EMPTY observable doesnt (previous error.) 
+     return of({ success: true });
   }
 
   //get current user

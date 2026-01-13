@@ -17,7 +17,7 @@ export class SurveyService {
   //helper method to ensure that only coordinators can CRUD surveys
   private requireCoordinator(){
     const coordinator = this.auth.getCurrentUser();
-    if(!coordinator || coordinator.role !== 'coordinator')
+    if(!coordinator || coordinator.role !== 'COORDINATOR')
       throw new Error('Coordinator access only');
   }
 
