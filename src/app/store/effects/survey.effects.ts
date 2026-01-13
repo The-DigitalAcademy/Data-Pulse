@@ -51,6 +51,7 @@ export class SurveyEffects {
           id: id,
           title: changes.title!,
           desc: changes.desc!,
+          coordinator: changes.coordinator!,
           questions: changes.questions!,
           isOpen: changes.isOpen!,
           createdAt: changes.createdAt!,

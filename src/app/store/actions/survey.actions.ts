@@ -43,6 +43,13 @@ export const createSurveyFailure = createAction(
   props<{ error: string }>()
 );
 
+// LoadSurveyById 
+export const loadSelectSurveyById = createAction(
+  '[Survey] Load Survey Success',
+  props<{ survey: Survey }>()
+
+)
+
 // Update Survey
 export const updateSurvey = createAction(
   '[Survey] Update Survey',
