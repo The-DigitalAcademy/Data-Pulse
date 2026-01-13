@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { take, map } from "rxjs";
 import { AuthService } from "../service/auth.service";
-import * as AuthSelector from '../../app/store/selectors/auth.selector';
+import * as AuthSelector from '../store/selectors/auth.selector';
 
 
 export const authGuard: CanActivateFn = (route, state) => {
