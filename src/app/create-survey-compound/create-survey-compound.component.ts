@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { Router} from '@angular/router';
-import { throwError } from 'rxjs';
-import { User} from 'src/app/models/user';
 import { SurveyService } from '../service/survey.service';
-import { Survey } from '../models/survey';
+import { newSurvey, Survey } from '../models/survey';
 import { Question } from '../models/question';
+import {createSurvey } from '../store/actions/survey.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-create-survey-compound',
@@ -20,7 +19,7 @@ export class CreateSurveyCompoundComponent {
   newChoices: string[] = [];
   survey!: Survey;
 
-  constructor(private surveyService: SurveyService) {}
+  constructor(private surveyService: SurveyService, private store: Store) {}
 
   addQuestion() {
     console.log(this.newChoices)
@@ -48,23 +47,16 @@ export class CreateSurveyCompoundComponent {
     this.newChoiceText = '';
   }
   submit(){
-    const surveyToSend: Omit<Survey, 'id' | 'createdAt'> = {
-    title: this.title,
-    desc: this.desc,
-    questions: this.questions,
-    isOpen: false
-  };
-    console.log("Survey in the component: ", surveyToSend);
+    const survey: newSurvey = {
+      title: this.title,
+      desc: this.desc,
+      questions: this.questions,
+      isOpen: false
+    };
 
-    this.surveyService.createSurvey(surveyToSend).subscribe(
-      {
-        next: (createdSurvey) => {
-          console.log(createdSurvey);
-        },
-        error: (err) => {
-          throwError(() => new Error('Could not create a new survey'));
-        }
-      }
-    );
+    console.log("Survey in the component: ", survey);
+
+    this.store.dispatch(createSurvey({survey}));
+    
   }
 }

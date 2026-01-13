@@ -10,3 +10,5 @@ export interface Survey {
     openedAt?: string;
     closedAt?: string;
 }
+
+export type newSurvey = Omit<Survey, 'id' | 'createdAt'>;
