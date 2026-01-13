@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SurveyService } from '../service/survey.service';
-import { survey } from '../models/survey';
+import { Survey } from '../models/survey';
 
 @Component({
   selector: 'app-results',
@@ -12,7 +12,7 @@ export class ResultsComponent {
   constructor(private surveyService: SurveyService) {}
     survey = this.surveyService.getAll()
     data: any[] = [];
-    closedSurveys: survey[] = [];
+    closedSurveys: Survey[] = [];
     ngOnInit() {
       this.loadClosedSurveys();
       this.survey.subscribe((data: any) =>

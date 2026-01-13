@@ -9,18 +9,19 @@ import { RegisterPageComponent } from './component/register-page/register-page.c
 import { FormLogin } from './login-page/component/form-login/form-login';
 import { SurveyComponent } from './component/survey-fill/survey/survey.component';
 import { MainPageComponent } from './components/main-page/main-page/main-page.component';
+import { authGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'home', component: MainPageComponent },
-  { path: 'results', component: ResultsComponent },
-  { path: 'details', component: SurveyDetailsComponent},
-  { path: 'admin', component: AdminPageComponent },
-  { path: 'create-survey', component: CreateSurveyCompoundComponent },
-  { path: 'register', component: RegisterPageComponent},
-  { path: 'login', component: FormLogin},
-  { path: 'survey-fill/:id', component: SurveyComponent},
-  { path: 'survey-detail/:id', component: SurveyDetailsComponent},
+  { path: 'home', component: MainPageComponent, canActivate: [authGuard] },
+  { path: 'results', component: ResultsComponent , canActivate: [authGuard] },
+  { path: 'details', component: SurveyDetailsComponent, canActivate: [authGuard] },
+  { path: 'admin', component: AdminPageComponent , canActivate: [authGuard] },
+  { path: 'create-survey', component: CreateSurveyCompoundComponent , canActivate: [authGuard] },
+  { path: 'register', component: RegisterPageComponent },
+  { path: 'login', component: FormLogin },
+  { path: 'survey-fill/:id', component: SurveyComponent, canActivate: [authGuard] },
+  { path: 'survey-detail/:id', component: SurveyDetailsComponent, canActivate: [authGuard] },
  
 ];
 

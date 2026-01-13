@@ -7,7 +7,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: rgba(0, 0, 255, 0.393);
+    background-color: #1b1d47;
 }
 
 .app-name-div {
@@ -19,13 +19,11 @@
 
 .app-name {
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: rgb(52, 44, 143);
-
-    
+    color: white;    
 }
 
 .app-tagline {
-    color: #07076E;
+    color: white;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: small;
 }
@@ -44,6 +42,7 @@
 .results-div h1 {
     font-weight: normal;
     font-size: 1.5rem;
+    color: white;
 }
 
 .results-div h1:hover {

@@ -1,49 +1,57 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { throwError } from 'rxjs';
-import { user } from 'src/app/models/user';
-import { AuthService } from 'src/app/service/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import * as UserActions from '../../store/actions/auth.actions';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.css']
 })
-export class RegisterPageComponent {
-  newUser : user = {
-    id: '',
-    name: '',
-    surname: '',
-    role: 'coordinator',
-    email: '',
-    password: ''
-  }
-  loading =false;
+export class RegisterPageComponent implements OnInit {
+  registerForm!: FormGroup;
+  loading = false;
   success = false;
   error = '';
 
   constructor(
-    private readonly auth: AuthService,
-    private readonly router: Router
-  ){}
+    private fb: FormBuilder,
+    private store: Store
+  ) {}
 
-  register() {
-    console.log(this.newUser)
-    if(!this.newUser.name || !this.newUser.surname || !this.newUser.email || !this.newUser.password)
-      throwError(() => new Error("Fields are invalid"));
-
-    this.auth.register(this.newUser).subscribe({
-      next: (user) => {
-        this.loading = false;
-        this.success = true;
-        console.log('Registration for user: ', this.newUser);
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = err.message || 'Registration failed'
-        console.log('Registration failed');
-      }
+  ngOnInit(): void {
+    this.registerForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      surname: ['', [Validators.required, Validators.minLength(2)]],
+      role: ['coordinator', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  register(): void {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      this.error = 'Please fill in all required fields correctly';
+      return;
+    }
+
+    const newUser: User = {
+      id: '',
+      name: this.registerForm.value.name,
+      surname: this.registerForm.value.surname,
+      role: this.registerForm.value.role,
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password
+    };
+
+    console.log(newUser);
+    this.store.dispatch(UserActions.registerUser({ user: newUser }));
+  }
+
+  // Helper method to access form controls in template
+  get f() {
+    return this.registerForm.controls;
   }
 }

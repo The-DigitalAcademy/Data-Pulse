@@ -2,17 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, switchMap, throwError, map } from 'rxjs';
 import { SurveyService } from './survey.service';
-import { survey } from '../models/survey';
+import { Survey } from '../models/survey';
 import { ResponseService } from './response.service';
 import { surveyResults } from '../models/surveyResults';
-import { response } from '../models/response';
+import { Response } from '../models/response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResultsService {
   private readonly url = '/api/results';
-  foundClosedSurveys: survey[] = [];
+  foundClosedSurveys: Survey[] = [];
   constructor(
     private readonly http: HttpClient,
     private readonly surveyService: SurveyService,
@@ -20,7 +20,7 @@ export class ResultsService {
   ){}
 
   //GET ALL CLOSED SURVEYS
-  getAllSurveys(): Observable<survey[]>{
+  getAllSurveys(): Observable<Survey[]>{
     return this.surveyService.getAll().pipe(
       //@ts-ignore
       map((closedSurveys: survey[]) => {
@@ -34,13 +34,13 @@ export class ResultsService {
   }
   getResults(surveyID: number): Observable<{ results: surveyResults; respondentCount: number }> {
     return this.surveyService.getAll().pipe(
-      map((surveys: survey[]) => {
+      map((surveys: Survey[]) => {
         const cSurvey = surveys.find((s) => s.id === surveyID);
         if (!cSurvey) throw new Error('Survey does not exist');
         //if (cSurvey.isOpen) throw new Error('Results are only available for closed surveys');
         return cSurvey;
       }),
-      switchMap((survey: survey) =>
+      switchMap((survey: Survey) =>
         this.responseService.getBySurveyId(survey.id).pipe(
           //@ts-ignore
           map((responses: response[]) => ({
@@ -57,7 +57,7 @@ export class ResultsService {
       catchError(err => throwError(() => err))
     );
   }
-  private aggregateResults(survey: survey, responses: response[]): surveyResults {
+  private aggregateResults(survey: Survey, responses: Response[]): surveyResults {
     const questionMap = new Map<
       number,
       { text: string; answers: Map<number, { text: string; count: number }> }
