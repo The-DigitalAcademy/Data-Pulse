@@ -15,7 +15,7 @@
              </div>
         </div>
         <div class="open-surveys-div">
-            <div class="survey-open" *ngFor="let data of data">
+            <div class="survey-open" *ngFor="let data of surveys$ | async">
                 <div>
                     <img class="survey-img" src="https://wpengine.com/wp-content/uploads/2021/05/optimize-images-1024x681.jpg">
                 </div>
