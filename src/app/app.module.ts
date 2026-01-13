@@ -21,7 +21,7 @@ import { environment } from 'src/environments/environment.development';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { AuthEffects } from './store/effects/auth.effects';
 import { SurveyEffects } from './store/effects/survey.effects';
-import { surveysFeatureKey, surveyReducer } from './Store/reducers/survey.reducer';
+import { surveysFeatureKey, surveyReducer } from './store/reducers/survey.reducer';
 
 // Meta-reducer to sync state with localStorage
 function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
