@@ -2,9 +2,12 @@
 import { Component, OnInit } from '@angular/core';
 import { SurveyService } from 'src/app/service/survey.service';
 import { Survey } from 'src/app/models/survey';
-import { SelectSurveyByUserId } from 'src/app/store/selectors/survey.selector';
+import { selectAllSurveys } from 'src/app/store/selectors/survey.selector';
+import { selectUserId } from 'src/app/store/selectors/auth.selector';
 import { Store } from '@ngrx/store';
 import { SurveyState } from 'src/app/store/state/survey.state';
+import *   as SurveyActions from '../../store/actions/survey.actions'
+import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'app-admin-page',
@@ -14,27 +17,49 @@ import { SurveyState } from 'src/app/store/state/survey.state';
 export class AdminPageComponent implements OnInit {
   data: Survey[] = [];
 
+  allSurveys$: Observable<Survey[] | []>;
+  userId$: Observable<string | null>;
+
   constructor(
     private surveyService: SurveyService,
     private store: Store<SurveyState>
-  ) {}
+  ) {
+    // Dispatch the general load first (from API)
+    this.store.dispatch(SurveyActions.loadSurveys());
 
-  ngOnInit(): void {
-    this.loadSurveys();
-    
+    this.allSurveys$ = this.store.select(selectAllSurveys);
+    this.userId$ = this.store.select(selectUserId);
   }
 
+    ngOnInit(): void {
+      this.loadSurveys();
+    }
 
-  private loadSurveys(): void {
-    // this.surveyService.getAll().subscribe({
-    //   next: (surveys) => this.data = surveys,
-    //   error: (err) => console.error('Load failed', err)
-    // });
-   console.log(this.store.select(SelectSurveyByUserId)
 
-   )
-
-  }
+    /**
+     * filter - only show surveys of the current coordinator user
+     */
+    private loadSurveys(): void {
+      // Get current user ID once (since it won't change)
+      this.userId$.pipe(
+        take(1) // complete after first value
+      ).subscribe(userId => {
+        if (!userId) {
+          this.data = [];
+          return;
+        }
+        // Convert to number if needed (since userId$ is string | null)
+        // const numericUserId = userId;
+        // Now get all surveys and filter them
+        this.allSurveys$.pipe(
+          take(1)
+        ).subscribe(surveys => {
+          this.data = surveys.filter(
+            survey => survey.coordinator?.id === userId
+          );
+        });
+      });
+    }
 
 
   toggleOpenClose(survey: Survey, index: number): void {
@@ -45,7 +70,7 @@ export class AdminPageComponent implements OnInit {
     action$.subscribe({
       next: (updated) => {
         this.data[index - 1] = updated;
-        this.loadSurveys();
+        // this.loadSurveys();
       },
       error: (err) => {
         console.error('Toggle failed', err);

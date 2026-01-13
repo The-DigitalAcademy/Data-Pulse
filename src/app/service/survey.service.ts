@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { Survey } from '../models/survey';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SurveyService {
-  private readonly url = '/api/survey';
+  private readonly url = environment.baseUrl;
   constructor(
     private readonly http: HttpClient,
     private readonly auth: AuthService
@@ -23,7 +24,7 @@ export class SurveyService {
 
   //get all the surveys
   getAll(): Observable<Survey[]>{
-    return this.http.get<Survey[]>(this.url);
+    return this.http.get<Survey[]>(this.url+'/surveys');
   }
 
 
