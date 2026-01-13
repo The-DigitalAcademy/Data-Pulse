@@ -3,41 +3,48 @@
 <!-- hearder -->
 <div class="div-container">
 <div class="create-survey">
-  <h2>Create Survey</h2>
+  <h2>Create A Survey</h2>
+
   <div class="inputs">
-  <div>
+  <div class="survey-header">
     <!-- survey title -->
-    <input [(ngModel)]="title" type="text" placeholder="Survey Title" />
-    <br />
+    <input [(ngModel)]="title" type="text" placeholder="Survey Title" class="title" />
+    
     <!-- Description -->
-    <input [(ngModel)]="desc" type="text" placeholder="Description" />
+    <input [(ngModel)]="desc" type="text" placeholder="Description" class="desc"/>
   </div>
 
-  <!-- Questions -->
+ <!-- Questions Div-->
+  <div class="questions-div">
+
+   <!-- Questions -->
   <div class="questions">
-    <input [(ngModel)]="newQuestionText" type="text" placeholder="Question" />
-    <button (click)="addQuestion()" class="add-question">Add Question</button>
+    <input [(ngModel)]="newQuestionText" type="text" placeholder="Question" class="question-input"/>
   </div>
 
     <br />
     <!-- Options -->
     <div class="optionDiv">
-      <input [(ngModel)]="newChoiceText" type="text" placeholder="Option" />
+      <input [(ngModel)]="newChoiceText" type="text" placeholder="Option" class="option-input"/>
       <button (click)="addOption()">Add option</button>
     </div>
   </div>
+    <button (click)="addQuestion()" class="add-question">Add Question</button>
+  </div>
 
+<!-- display questions and options -->  
+  <div  *ngFor="let question of questions" class="new-question">
+    <h5 class="question">{{question.text}}</h5>
+    <h5 *ngFor="let choice of question.choices">{{ choice.text }}</h5>
+  </div>
   <!-- buttons -->
 
   <div class="actions">
     <button class="cancel" routerLink="/admin">Cancel</button>
-    <button (click)="submit()" class="save">Save</button>
+    <button (click)="submit()" class="save" routerLink="/admin">Save</button>
   </div>
   
-<!-- display questions and options -->
-  <div  *ngFor="let question of questions">
-    <h5>{{question.text}}</h5>
-    <h5 *ngFor="let choice of question.choices">{{ choice.text }}</h5>
-  </div>
+
+  
 </div>
 </div>
