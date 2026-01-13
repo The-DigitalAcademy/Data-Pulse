@@ -6,7 +6,7 @@ length: any;
     id: number;
     title: string;
     desc: string;
-    coordinator: User
+    coordinator?: User;
     questions: Question[];
     response: Response[];
     isOpen: boolean;
