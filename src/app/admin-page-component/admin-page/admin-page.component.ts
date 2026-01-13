@@ -2,6 +2,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SurveyService } from 'src/app/service/survey.service';
 import { Survey } from 'src/app/models/survey';
+import { SelectSurveyByUserId } from 'src/app/store/selectors/survey.selector';
+import { Store } from '@ngrx/store';
+import { SurveyState } from 'src/app/store/state/survey.state';
 
 @Component({
   selector: 'app-admin-page',
@@ -11,18 +14,28 @@ import { Survey } from 'src/app/models/survey';
 export class AdminPageComponent implements OnInit {
   data: Survey[] = [];
 
-  constructor(private surveyService: SurveyService) {}
+  constructor(
+    private surveyService: SurveyService,
+    private store: Store<SurveyState>
+  ) {}
 
   ngOnInit(): void {
     this.loadSurveys();
+    
   }
 
+
   private loadSurveys(): void {
-    this.surveyService.getAll().subscribe({
-      next: (surveys) => this.data = surveys,
-      error: (err) => console.error('Load failed', err)
-    });
+    // this.surveyService.getAll().subscribe({
+    //   next: (surveys) => this.data = surveys,
+    //   error: (err) => console.error('Load failed', err)
+    // });
+   console.log(this.store.select(SelectSurveyByUserId)
+
+   )
+
   }
+
 
   toggleOpenClose(survey: Survey, index: number): void {
     const action$ = survey.isOpen

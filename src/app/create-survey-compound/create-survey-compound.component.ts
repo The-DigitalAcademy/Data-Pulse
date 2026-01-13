@@ -51,6 +51,7 @@ export class CreateSurveyCompoundComponent {
     const surveyToSend: Omit<Survey, 'id' | 'createdAt'> = {
     title: this.title,
     desc: this.desc,
+    coordinator: this.survey.coordinator,
     questions: this.questions,
     isOpen: false
   };
