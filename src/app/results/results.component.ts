@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SurveyService } from '../service/survey.service';
 import { Survey } from '../models/survey';
 
+//Works on what home
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',

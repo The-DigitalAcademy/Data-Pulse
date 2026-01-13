@@ -1,49 +1,46 @@
 import { Component, OnInit } from '@angular/core';
-import { ResultsService } from '../service/results.service';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Survey } from '../models/survey';
+import { loadSurvey } from '../store/actions/survey.actions';
+import { map, Observable, take } from 'rxjs';
+import { selectSurveyById } from '../store/selectors/survey.selector';
 
-interface ResultQuestion {
-  questionID: number;
-  questionText: string;
-  answers: { answerID: number; answerText: string; count: number }[];
-}
-
+// Works on back page 
 @Component({
   selector: 'survey-details',
   templateUrl: './survey-details.component.html',
   styleUrls: ['./survey-details.component.css']
 })
 export class SurveyDetailsComponent implements OnInit {
-  results: ResultQuestion[] = [];
-  respondentCount = 0;
-
+    surveys$!: Observable<Survey | null>;
+    
   constructor(
-    private resultsService: ResultsService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private store: Store,
   ) {}
+
+  respondentCount = 0;
 
   ngOnInit(): void {
     const surveyIdParam = this.route.snapshot.paramMap.get('id');
     const survey_id = surveyIdParam ? Number(surveyIdParam) : null;
-    if (survey_id !== null && !Number.isNaN(survey_id)) {
-      this.getSurveyDetails(survey_id);
+
+     if (survey_id !== null && !Number.isNaN(survey_id)) {
+      this.surveys$ = this.store.select(selectSurveyById(survey_id));
+      this.store.dispatch(loadSurvey({ id: survey_id }));
     } else {
       console.error('Invalid survey id');
     }
   }
 
-  getSurveyDetails(id: number) {
-    this.resultsService.getResults(id).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.results = data.results;
-        this.respondentCount = data.respondentCount;
-      },
-      error: (err) => {
-        console.log('Error loading results:', err.message);
-        this.results = [];
-        this.respondentCount = 0;
-      }
+  numOfRespondents() {
+    this.surveys$.pipe(
+      map(survey => survey?.response?.length ?? 0),
+      take(1)
+    )
+    .subscribe(count => {
+      this.respondentCount = count;
     });
-  }
-}
+
+}}

@@ -14,14 +14,14 @@ import { SurveyDetailsComponent } from './survey-details/survey-details.componen
 import { SurveyComponent } from './component/survey-fill/survey/survey.component';
 import { RegisterPageComponent } from './component/register-page/register-page.component';
 import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
-import { authFeatureKey, authReducer } from './store/reducers/auth.reducers';
+import { authFeatureKey, authReducer } from './Store/reducers/auth.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment.development';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { AuthEffects } from './store/effects/auth.effects';
 import { SurveyEffects } from './store/effects/survey.effects';
-import { surveysFeatureKey, surveyReducer } from './store/reducers/survey.reducer';
+import { surveysFeatureKey, surveyReducer } from './Store/reducers/survey.reducer';
 
 // Meta-reducer to sync state with localStorage
 function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
