@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { survey } from '../models/survey';
+import { Survey } from '../models/survey';
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +17,17 @@ export class SurveyService {
   //helper method to ensure that only coordinators can CRUD surveys
   private requireCoordinator(){
     const coordinator = this.auth.getCurrentUser();
-    if(!coordinator || coordinator.role !== 'coordinator')
+    if(!coordinator || coordinator.role !== 'COORDINATOR')
       throw new Error('Coordinator access only');
   }
 
   //get all the surveys
-  getAll(): Observable<survey[]>{
-    return this.http.get<survey[]>(this.url);
+  getAll(): Observable<Survey[]>{
+    return this.http.get<Survey[]>(this.url);
   }
 
   //create a survey
-  createSurvey(Survey: Omit<survey, 'id' | 'createdAt'>): Observable<survey>{
+  createSurvey(Survey: Omit<Survey, 'id' | 'createdAt'>): Observable<Survey>{
     this.requireCoordinator();
     console.log(Survey);
     const newSurvey = {
@@ -35,13 +35,13 @@ export class SurveyService {
       createdAt: new Date().toISOString(),
     };
     console.log("Survey in the service: ", newSurvey);
-    return this.http.post<survey>(this.url, newSurvey);
+    return this.http.post<Survey>(this.url, newSurvey);
   }
 
   //update a survey
-  updateSurvey(Survey: survey): Observable<survey>{
+  updateSurvey(Survey: Survey): Observable<Survey>{
     this.requireCoordinator();
-    return this.http.put<survey>(`${this.url}/${Survey.id}`, Survey);
+    return this.http.put<Survey>(`${this.url}/${Survey.id}`, Survey);
   }
 
   //delete a survey
@@ -54,18 +54,18 @@ export class SurveyService {
   }
 
   //open the survey
-  openSurvey(Survey: survey): Observable<survey>{
+  openSurvey(Survey: Survey): Observable<Survey>{
     this.requireCoordinator();
-    return this.http.patch<survey>(`${this.url}/${Survey.id}`, {
+    return this.http.patch<Survey>(`${this.url}/${Survey.id}`, {
       isOpen: true,
       openedAt: new Date().toISOString(),
     });
   }
 
   //close the survey
-  closeSurvey(survey: survey): Observable<survey>{
+  closeSurvey(survey: Survey): Observable<Survey>{
     this.requireCoordinator();
-    return this.http.patch<survey>(`${this.url}/${survey.id}`, {
+    return this.http.patch<Survey>(`${this.url}/${survey.id}`, {
       isOpen: false,
       closedAt: new Date().toISOString(),
     });

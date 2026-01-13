@@ -10,20 +10,20 @@
 
   <div class="results-div">
     <!-- Role-based Links -->
-    <a *ngIf="isCoordinator" routerLink="/results" routerLinkActive="active">
+    <a *ngIf="(currentUser$ | async)?.role === 'COORDINATOR'" routerLink="/results" routerLinkActive="active">
       <h1>Results</h1>
     </a>
-    <a *ngIf="isCoordinator" routerLink="/admin" routerLinkActive="active">
+    <a *ngIf="(currentUser$ | async)?.role === 'COORDINATOR'" routerLink="/admin" routerLinkActive="active">
       <h1>Admin</h1>
     </a>
 
     <!-- Auth Links -->
-    <ng-container *ngIf="currentUser; else loginLink">
-      <a (click)="logout()">
-      <h1>Logout</h1>
-    </a>
+    <ng-container *ngIf="isAuthenticated$ | async">
+        <a (click)="logout()">
+        <h1>Logout</h1>
+      </a>
     </ng-container>
-    <ng-template #loginLink>
+    <ng-template #loginLink *ngIf="!(isAuthenticated$ | async)">
       <a routerLink="/login" routerLinkActive="active">
         <h1>Login</h1>
       </a>

@@ -1,13 +1,13 @@
-import { survey } from "src/app/models/survey";
+import { Survey } from "src/app/models/survey";
 
 export interface SurveyState {
   
-  selectedSurveyId: string | null;
+  selectedSurveyId: number | null;
   loading: boolean;
   error: string | null;
-  editingSurvey: survey | null;
+  editingSurvey:Survey | null;
     // questions: [],
-    survey: survey[]
+  surveys: Survey[]
 }
 
 // Initial state
@@ -16,5 +16,5 @@ export const initialSurveyState : SurveyState = {
     loading: false,
     error: null,
     editingSurvey: null,
-    survey: []
+    surveys: []
 };

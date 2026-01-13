@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ResponseService } from './../../../service/response.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from 'src/app/service/survey.service';
-import { response } from 'src/app/models/response';
+import { Response } from 'src/app/models/response';
 
 @Component({
   selector: 'app-survey',
@@ -20,7 +20,7 @@ export class SurveyComponent implements OnInit {
   private selected = new Map<number, number>();
 
   // 3. Final payload
-  responses!: response;
+  responses!: Response;
   id = 0;
 
   constructor(

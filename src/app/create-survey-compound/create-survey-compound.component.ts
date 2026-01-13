@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Router} from '@angular/router';
 import { throwError } from 'rxjs';
-import { user} from 'src/app/models/user';
+import { User} from 'src/app/models/user';
 import { SurveyService } from '../service/survey.service';
-import { survey } from '../models/survey';
-import { question } from '../models/question';
+import { Survey } from '../models/survey';
+import { Question } from '../models/question';
 
 @Component({
   selector: 'app-create-survey-compound',
@@ -14,11 +14,11 @@ import { question } from '../models/question';
 export class CreateSurveyCompoundComponent {
   title = '';
   desc = '';
-  questions: question[] = [];
+  questions: Question[] = [];
   newQuestionText = '';
   newChoiceText = '';
   newChoices: string[] = [];
-  survey!: survey;
+  survey!: Survey;
 
   constructor(private surveyService: SurveyService) {}
 
@@ -28,7 +28,7 @@ export class CreateSurveyCompoundComponent {
     if (this.newQuestionText && validOptions.length > 0) {
       console.log(this.newQuestionText);
       console.log(validOptions.length)
-      const question: question = {
+      const question: Question = {
         text: this.newQuestionText,
         choices: validOptions.map((Opt, i) => ({
           id: i + 1,
@@ -48,7 +48,7 @@ export class CreateSurveyCompoundComponent {
     this.newChoiceText = '';
   }
   submit(){
-    const surveyToSend: Omit<survey, 'id' | 'createdAt'> = {
+    const surveyToSend: Omit<Survey, 'id' | 'createdAt'> = {
     title: this.title,
     desc: this.desc,
     questions: this.questions,

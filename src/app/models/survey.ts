@@ -1,10 +1,10 @@
-import { question } from "./question";
+import { Question } from "./question";
 
-export interface survey {
+export interface Survey {
     id: number;
     title: string;
     desc: string;
-    questions: question[];
+    questions: Question[];
     isOpen: boolean;
     createdAt: string;
     openedAt?: string;
