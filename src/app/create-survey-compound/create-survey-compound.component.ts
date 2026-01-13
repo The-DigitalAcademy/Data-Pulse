@@ -67,5 +67,7 @@ export class CreateSurveyCompoundComponent {
         }
       }
     );
+
+    alert("Save Successful")
   }
 }

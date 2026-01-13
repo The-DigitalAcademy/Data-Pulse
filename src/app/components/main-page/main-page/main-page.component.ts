@@ -22,7 +22,7 @@ export class MainPageComponent {
  }
 
  checkClosed ( data: any ) {
-     data.forEach((item: any, index: any) => {
+    data.forEach((item: any, index: any) => {
     if (!item.isOpen) {
       this.newData.push(item);   
       data.splice(index, 1);      

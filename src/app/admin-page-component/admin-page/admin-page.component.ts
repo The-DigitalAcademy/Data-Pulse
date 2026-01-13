@@ -54,12 +54,14 @@ export class AdminPageComponent implements OnInit {
     });
   }
 
+  
   deleteItem(id: number, index: number): void {
     if (!confirm('Delete this survey? This cannot be undone.')) return;
 
     this.surveyService.delete(id).subscribe({
       next: () => {
         this.data.splice(index, 1);
+        console.log(this.data)
       },
       error: (err) => {
         console.error('Delete failed', err);
