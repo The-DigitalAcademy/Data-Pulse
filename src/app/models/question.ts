@@ -6,4 +6,8 @@ export interface Question {
   choiceOptions: ChoiceDto[];
 }
 
-export type QuestionDto = Omit<Question, 'id'>;
+export interface QuestionDto {
+  id?: number;
+  text: string;
+  choiceOptions: ChoiceDto[];
+}
