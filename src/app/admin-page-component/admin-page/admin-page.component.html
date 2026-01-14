@@ -15,7 +15,7 @@
       <div class="admin-survey-data-div">
         <h1 class="admin-survey-title">{{ survey.title }}</h1>
         <h2 class="admin-survey-desc">
-          <span class="divider">|</span> {{ survey.desc }}
+          <span class="divider">|</span> {{ survey.description }}
         </h2>
         <span class="status-badge" [class.open]="survey.isOpen" [class.closed]="!survey.isOpen">
           {{ survey.isOpen ? 'Open' : 'Closed' }}

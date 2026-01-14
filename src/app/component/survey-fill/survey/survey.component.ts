@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ResponseService } from './../../../service/response.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SurveyService } from 'src/app/service/survey.service';
+import { Store } from '@ngrx/store';
+import { selectSurveyById } from 'src/app/store/selectors/survey.selector';
+import { Observable, take } from 'rxjs';
+import { Survey } from 'src/app/models/survey';
+import { Question } from 'src/app/models/question';
 import { Response } from 'src/app/models/response';
 
 @Component({
@@ -10,47 +14,86 @@ import { Response } from 'src/app/models/response';
   styleUrls: ['./survey.component.css']
 })
 export class SurveyComponent implements OnInit {
+  selectedSurvey$!: Observable<Survey | undefined>;
+  currentSurveyOpened!: Survey | undefined;
+  currentSurveyQuestions: Question[] = [];
 
-  // 1. Data coming from the service
-  survey = this.surveyService.getAll();
-  options: any[] = [];
-  option: any = {};
-
-  // 2. Answer tracking – Map<questionId, choiceId>
   private selected = new Map<number, number>();
 
-  // 3. Final payload
   responses!: Response;
   id = 0;
+  loading = true;
 
   constructor(
-    private surveyService: SurveyService,
     private route: ActivatedRoute,
     private responseService: ResponseService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) { }
 
   ngOnInit(): void {
-    this.survey.subscribe((data: any[]) => {
-      this.options = data;
-      this.id = Number(this.route.snapshot.paramMap.get('id') ?? 0);
-      this.option = data.find(o => o.id === this.id) ?? {};
+    this.route.params.subscribe(params => {
+      this.id = Number(params['id']) || 0;
+      
+      if (this.id) {
+        this.loadSurveyFromStore();
+      } else {
+        console.error('No survey ID found in route parameters');
+        this.router.navigate(['/home']);
+      }
     });
   }
 
-  // Called from the template when a radio button is clicked
-  answerQuestion(questionId: number, choiceId: number): void {
-    this.selected.set(questionId, choiceId);
+  loadSurveyFromStore(): void {
+    this.selectedSurvey$ = this.store.select(selectSurveyById(this.id));
+    this.selectedSurvey$.pipe(take(1)).subscribe({
+      next: (survey) => {
+        if (survey) {
+          console.log('Survey loaded from store:', survey);
+          this.currentSurveyOpened = survey;
+          
+          // initialise questions
+          this.currentSurveyQuestions = survey.questions?.map(q => ({
+            ...q,
+            choiceOptions: q.choiceOptions?.map(choice => ({
+              ...choice,
+              // if optionText null/undefined - indicate with static message.
+              optionText: choice.optionText || `Missing text - ${choice.id}`
+            })) || []
+          })) || [];
+          
+          this.loading = false;
+        } else {
+          console.error('Survey not found in store for ID:', this.id);
+          this.router.navigate(['/home']);
+        }
+      },
+      error: (error) => {
+        console.error('Error loading survey from store:', error);
+        this.loading = false;
+      }
+    });
   }
 
-  // Helper – true only when every question has an answer
+  answerQuestion(questionId: number, choiceId: any): void {
+    if (choiceId) {
+      this.selected.set(questionId, choiceId);
+    }
+  }
+
   canSubmit(): boolean {
-    if (!this.option?.questions) return false;
-    return this.option.questions.every((q: any) => this.selected.has(q.id));
+    if (!this.currentSurveyQuestions || this.currentSurveyQuestions.length === 0) {
+      return false;
+    }
+    return this.currentSurveyQuestions.every((q: Question) => this.selected.has(q.id));
   }
 
-  // Build the payload exactly as you defined in the model
   submitButton() {
+    if (!this.currentSurveyOpened) {
+      alert('No survey loaded');
+      return;
+    }
+
     const answers = Array.from(this.selected.entries()).map(([qID, cID]) => ({
       questionId: qID,
       choiceId: cID
@@ -64,7 +107,7 @@ export class SurveyComponent implements OnInit {
       submittedAt: new Date().toISOString()
     };
 
-    return this.responseService.createResponse(this.responses).subscribe({
+    this.responseService.createResponse(this.responses).subscribe({
       next: (res) => {
         alert('Survey Submitted! Thank you for your participation.');
         this.router.navigate(['/home']);

@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Response } from '../models/response';
 import { Survey } from '../models/survey';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResponseService {
+  private readonly url = environment.baseUrl;
 
   constructor(private readonly http: HttpClient) { }
-  private readonly url = '/api/response';
   getBySurveyId(surveyID: number): Observable<Response[]>{
     return this.http.get<Response[]>(this.url).pipe(
       //@ts-ignore
@@ -21,6 +22,6 @@ export class ResponseService {
   }
 
   createResponse(resp: Response): Observable<Response>{
-    return this.http.post<Response>(this.url, resp);
+    return this.http.post<Response>(this.url+'/response', resp);
   }
 }

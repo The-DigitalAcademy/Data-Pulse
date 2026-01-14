@@ -1,6 +1,9 @@
 export interface Choice {
   id: number;
-  text: string;
+  optionText: string;
 }
 
-export type ChoiceDto = Omit<Choice, 'id'>;
+export interface ChoiceDto {
+  id?: number;
+  optionText: string;
+}

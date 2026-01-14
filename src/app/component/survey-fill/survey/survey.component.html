@@ -2,37 +2,53 @@
   <div class="survey-container">
     <div class="survey">
 
-      <div class="survey-title">
-        <h2>{{ option.title }}</h2>
+      <!-- Loading State -->
+      <div *ngIf="loading">
+        Loading survey...
       </div>
 
-      <div class="question-container"
-           *ngFor="let q of option.questions">
-
-        <div class="question">
-          <h4>Question: {{ q.text }}</h4>
+      <!-- Survey Content -->
+      <div *ngIf="!loading && currentSurveyOpened">
+        <div class="survey-title">
+          <h2>{{ currentSurveyOpened.title }}</h2>
+          <p *ngIf="currentSurveyOpened.description">{{ currentSurveyOpened.description }}</p>
         </div>
 
-        <div class="question-options">
-          <div class="options"
-               *ngFor="let choice of q.choices">
+        <!-- Questions List -->
+        <div class="question-container"
+             *ngFor="let q of currentSurveyQuestions; let i = index">
 
-            <label>
-              <input type="radio"
-                     [name]="'q_' + q.id"
-                     [value]="choice.choiceId"
-                     (change)="answerQuestion(q.id, choice.choiceId)">
-              {{ choice.text }}
-            </label>
+          <div class="question">
+            <h4>{{ i + 1 }}. {{ q.text }}</h4>
+          </div>
+
+          <div class="question-options">
+            <div class="options"
+                 *ngFor="let choice of q.choiceOptions; let optionIndex = index">
+
+              <label>
+                <input type="radio"
+                       [name]="'q_' + q.id"
+                       [value]="choice.id"
+                       (change)="answerQuestion(q.id, choice.id)">
+                {{ choice.optionText }}
+              </label>
+            </div>
           </div>
         </div>
+
+        <div class="button-sector">
+          <button class="cancelButton" routerLink="/home">Cancel</button>
+          <button class="submitButton"
+                  [disabled]="!canSubmit()"
+                  (click)="submitButton()">Submit</button>
+        </div>
       </div>
 
-      <div class="button-sector">
-        <button class="cancelButton" routerLink="/home">Cancel</button>
-        <button class="submitButton"
-                [disabled]="!canSubmit()"
-                (click)="submitButton()">Submit</button>
+      <!-- No Survey Found -->
+      <div *ngIf="!loading && !currentSurveyOpened">
+        Survey not found.
+        <button class="cancelButton" routerLink="/home">Go Back</button>
       </div>
 
     </div>
