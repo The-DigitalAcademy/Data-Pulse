@@ -72,8 +72,8 @@ export class ResultsService {
     for (const q of survey.questions) {
       const answerMap = new Map<number, { text: string; count: number }>();
       
-      for (let i = 0; i < q.choices.length; i++) {
-        answerMap.set(i, { text: q.choices[i].text, count: 0 });
+      for (let i = 0; i < q.choiceOptions.length; i++) {
+        answerMap.set(i, { text: q.choiceOptions[i].optionText, count: 0 });
       }
       
       questionMap.set(q.id, { text: q.text, answers: answerMap });

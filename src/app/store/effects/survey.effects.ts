@@ -50,7 +50,7 @@ export class SurveyEffects {
         const survey: Survey = {
           id: id,
           title: changes.title!,
-          desc: changes.desc!,
+          description: changes.description!,
           coordinator: changes.coordinator!,
           questions: changes.questions!,
           isOpen: changes.isOpen!,

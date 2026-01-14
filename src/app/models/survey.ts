@@ -4,7 +4,7 @@ import { User, UserDto } from "./user";
 export interface Survey {
     id: number;
     title: string;
-    desc: string;
+    description: string;
     coordinator?: UserDto;
     questions: Question[];
     isOpen: boolean;
@@ -17,7 +17,7 @@ export type newSurvey = Omit<Survey, 'id' | 'createdAt'>;
 
 export interface newSurveyDto {
     title: string;
-    desc: string;
+    description: string;
     coordinator?: UserDto;
     questions: QuestionDto[];
     isOpen: boolean;
