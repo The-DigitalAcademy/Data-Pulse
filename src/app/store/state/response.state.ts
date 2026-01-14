@@ -1,8 +1,9 @@
+import { SurveyResponse } from "src/app/models/response"
 
 export interface ResponseState {
      loading: boolean,
      error: string | null,
-     response: Response[]
+     response: SurveyResponse[]
 }
 
 //Initial Response State

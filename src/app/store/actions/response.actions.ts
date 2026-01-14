@@ -10,7 +10,7 @@ export const loadResponses = createAction(
 
 export const loadResponsesSuccess = createAction(
   '[Response] Load Success',
-  props<{SurveyResponse: SurveyResponse[]}>()
+  props<{surveyResponse: SurveyResponse[]}>()
 );
 
 export const loadResponsesFailure = createAction(
