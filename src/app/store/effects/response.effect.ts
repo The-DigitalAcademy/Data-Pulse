@@ -17,7 +17,7 @@ export class ResponseEffects {
       ofType(ResponseActions.loadResponses),
       switchMap((action) =>
          this.responseService.getBySurveyId(action.surveyId).pipe(
-          map((SurveyResponse) => ResponseActions.loadResponsesSuccess({ SurveyResponse })),
+          map((surveyResponse) => ResponseActions.loadResponsesSuccess({ surveyResponse })),
           catchError((error) =>
             of(ResponseActions.loadResponsesFailure({ error: error.message }))
           )
