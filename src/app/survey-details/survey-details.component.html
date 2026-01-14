@@ -3,11 +3,16 @@
       <h2>Results Details</h2>
       <p class="res">Respondents: {{respondentCount}}</p>
 
-      <div class="question-box">
-        <!-- <p>{{result.questionText}}</p> -->
-        <!-- <ul *ngFor="let choice of result.answers">
-          <li>{{choice.answerText }} : {{choice.count}}</li>
-      </ul> -->
+      <div class="question-box" >
+        <!-- Will get the questions to the survey  -->
+        <div class="question" *ngFor="let question of survey.questions">
+            <h1>{{question.text}}</h1> 
+            <div class="choices" *ngFor="let choices of question.choices">
+               <h2>{{choices.text}}</h2>
+               <!-- Logic for checking how many people picked this specific choice -->
+               <h2>Number of responses: </h2>
+            </div>
+        </div>    
       </div>
     </div>
     <div >
