@@ -1,25 +1,38 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { newSurveyDto, Survey } from '../models/survey';
 import { environment } from 'src/environments/environment.development';
+import { Store } from '@ngrx/store';
+import { User, UserDto } from '../models/user';
+import { selectCurrentUser } from '../store/selectors/auth.selector';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SurveyService {
+  
   private readonly url = environment.baseUrl;
+  isAuthenticatedAdmin$: Observable<UserDto>;
+
   constructor(
     private readonly http: HttpClient,
-    private readonly auth: AuthService
-) { }
+    private readonly auth: AuthService,
+    private store: Store
+) {
+  this.isAuthenticatedAdmin$ = this.store.select(selectCurrentUser);
+ }
 
   //helper method to ensure that only coordinators can CRUD surveys
   private requireCoordinator(){
-    const coordinator = this.auth.getCurrentUser();
-    if(!coordinator || coordinator.role !== 'COORDINATOR')
-      throw new Error('Coordinator access only');
+    this.isAuthenticatedAdmin$.pipe(take(1)).subscribe(
+      authenticatedUser => {
+        if(!(authenticatedUser.role === 'COORDINATOR')) {
+          alert("Coordinator access only")
+        }
+      }
+    )
   }
 
   //get all the surveys
@@ -30,7 +43,7 @@ export class SurveyService {
 
   //create a survey
   createSurvey(survey: newSurveyDto): Observable<Survey>{
-    // this.requireCoordinator();
+    this.requireCoordinator();
     console.log(survey);
     const newSurvey = {
       ...survey,

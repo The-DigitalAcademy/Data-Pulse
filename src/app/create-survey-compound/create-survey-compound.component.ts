@@ -27,7 +27,7 @@ export class CreateSurveyCompoundComponent {
   constructor(private surveyService: SurveyService, private store: Store) {}
 
   ngOnInit() {
-    this.currentUser$ = this.store.select(selectCurrentUser);
+  this.currentUser$ = this.store.select(selectCurrentUser);
   }
 
   addQuestion() {
@@ -38,9 +38,9 @@ export class CreateSurveyCompoundComponent {
       console.log(validOptions.length)
       const question: QuestionDto = {
         text: this.newQuestionText,
-        choices: validOptions.map((Opt, i) => ({
+        choiceOptions: validOptions.map((Opt, i) => ({
           // id: i + 1,
-          text: Opt,
+          optionText: Opt,
         })),
         // id: 0
       }
