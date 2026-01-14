@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SurveyService } from '../service/survey.service';
 import { newSurveyDto, Survey } from '../models/survey';
-import { Question, QuestionDto } from '../models/question';
+import { QuestionDto } from '../models/question';
 import {createSurvey } from '../store/actions/survey.actions';
 import { Store } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
@@ -60,7 +60,7 @@ export class CreateSurveyCompoundComponent {
     this.currentUser$.pipe(take(1)).subscribe( currentUser => {
       const newSurvey: newSurveyDto = {
         title: this.title,
-        desc: this.desc,
+        description: this.desc,
         questions: this.questions,
         isOpen: false,
         coordinator: currentUser
