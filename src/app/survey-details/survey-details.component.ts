@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Survey } from '../models/survey';
 import { loadSurvey } from '../store/actions/survey.actions';
-import { map, Observable, take } from 'rxjs';
+import { map, Observable, take, combineLatest } from 'rxjs';
 import { selectSurveyById } from '../store/selectors/survey.selector';
 import { selectAllResponses, selectResponsesBySurveyId } from '../store/selectors/response.selector';
 import { SurveyResponse } from '../models/response';
@@ -18,6 +18,8 @@ import { loadResponses } from '../store/actions/response.actions';
 export class SurveyDetailsComponent implements OnInit {
     surveys$!: Observable<Survey | null>;
     response$!: Observable<SurveyResponse[] | null>
+    choiceCounts$!: Observable<Record<number, number>>;
+
     
   constructor(
     private readonly route: ActivatedRoute,
@@ -25,6 +27,7 @@ export class SurveyDetailsComponent implements OnInit {
   ) {}
 
   respondentCount = 0;
+  choiceResponse = 0;
 
   ngOnInit(): void {
     const surveyIdParam = this.route.snapshot.paramMap.get('id');
@@ -34,15 +37,16 @@ export class SurveyDetailsComponent implements OnInit {
       this.surveys$ = this.store.select(selectSurveyById(survey_id));
       this.response$ = this.store.select(selectResponsesBySurveyId(survey_id))
       this.store.dispatch(loadSurvey({ id: survey_id }));
-      this.store.dispatch(loadResponses({surveyId: survey_id}))
+      this.store.dispatch(loadResponses({surveyId: survey_id}));
+      this.numOfRespondentsPerChoice();
     } else {
       console.error('Invalid survey id');
     }
   }
 
   numOfRespondents() {
-    this.surveys$.pipe(
-      map(survey => survey?.surveyResponse?.length ?? 0),
+    this.response$.pipe(
+      map(response => response?.length ?? 0),
       take(1)
     )
     .subscribe(count => {
@@ -53,6 +57,30 @@ export class SurveyDetailsComponent implements OnInit {
   // Check the number of respondents for each choice 
 
   numOfRespondentsPerChoice() {
-     
-  }
+  this.choiceCounts$ = combineLatest([
+    this.surveys$,
+    this.response$
+  ]).pipe(
+    map(([survey, responses]) => {
+      if (!survey || !responses) {
+        return {};
+      }
+
+      const counts: Record<number, number> = {};
+
+      // count responses
+       responses.forEach(response => {
+        response.answers.forEach(answer => {
+          const choiceId = answer.choiceId;
+          if (counts[choiceId] !== undefined) {
+            counts[choiceId]++;
+          }
+        });
+      });
+
+      return counts;
+    })
+  );
+}
+
 }

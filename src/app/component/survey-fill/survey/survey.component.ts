@@ -50,7 +50,7 @@ export class SurveyComponent implements OnInit {
    this.selectedSurvey$.pipe(take(1)).subscribe(survey => {
      console.log(`Display selected survey from store ${JSON.stringify(survey)}`);
      this.currentSurveyOpened = survey;
-     this.currentSurveyQuestions = survey.questions;
+     this.currentSurveyQuestions = survey.questions || [];
    });
   }
 
