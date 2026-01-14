@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { Survey } from '../models/survey';
+import { newSurveyDto, Survey } from '../models/survey';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SurveyService {
-  private readonly url = '/api/surveys';
+  private readonly url = environment.baseUrl;
   constructor(
     private readonly http: HttpClient,
     private readonly auth: AuthService
@@ -23,19 +24,20 @@ export class SurveyService {
 
   //get all the surveys
   getAll(): Observable<Survey[]>{
-    return this.http.get<Survey[]>(this.url);
+    return this.http.get<Survey[]>(this.url+'/surveys');
   }
 
+
   //create a survey
-  createSurvey(Survey: Omit<Survey, 'id' | 'createdAt'>): Observable<Survey>{
-    this.requireCoordinator();
-    console.log(Survey);
+  createSurvey(survey: newSurveyDto): Observable<Survey>{
+    // this.requireCoordinator();
+    console.log(survey);
     const newSurvey = {
-      ...Survey,
-      createdAt: new Date().toISOString(),
+      ...survey,
+      // createdAt: new Date().toISOString(),
     };
     console.log("Survey in the service: ", newSurvey);
-    return this.http.post<Survey>(this.url, newSurvey);
+    return this.http.post<Survey>(this.url+'/surveys', newSurvey);
   }
 
   //update a survey
