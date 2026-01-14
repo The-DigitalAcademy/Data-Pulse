@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { Survey } from '../models/survey';
+import { newSurveyDto, Survey } from '../models/survey';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -29,15 +29,15 @@ export class SurveyService {
 
 
   //create a survey
-  createSurvey(Survey: Omit<Survey, 'id' | 'createdAt'>): Observable<Survey>{
-    this.requireCoordinator();
-    console.log(Survey);
+  createSurvey(survey: newSurveyDto): Observable<Survey>{
+    // this.requireCoordinator();
+    console.log(survey);
     const newSurvey = {
-      ...Survey,
-      createdAt: new Date().toISOString(),
+      ...survey,
+      // createdAt: new Date().toISOString(),
     };
     console.log("Survey in the service: ", newSurvey);
-    return this.http.post<Survey>(this.url, newSurvey);
+    return this.http.post<Survey>(this.url+'/surveys', newSurvey);
   }
 
   //update a survey
