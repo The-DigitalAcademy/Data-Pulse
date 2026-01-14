@@ -17,10 +17,9 @@ export class MainPageComponent {
   surveys$: Observable<Survey[] | []>;
   
 
-  constructor(private surveyservice: SurveyService, private store: Store) {
+  constructor(private store: Store) {
     this.surveys$ = this.store.select(selectAllSurveys);
   }
-  survey = this.surveyservice;
   data: any[] = [];
   newData: any[] = [];
 
