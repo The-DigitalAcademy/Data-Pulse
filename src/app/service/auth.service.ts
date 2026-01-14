@@ -1,4 +1,4 @@
-import { Response } from './../models/response';
+import { SurveyResponse } from './../models/response';
 import { Injectable } from '@angular/core';
 import { newUserDto, User, UserDto } from '../models/user';
 import { EMPTY, Observable, map, of } from 'rxjs';

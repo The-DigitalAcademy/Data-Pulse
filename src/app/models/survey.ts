@@ -1,4 +1,5 @@
 import { Question, QuestionDto } from "./question";
+import { SurveyResponse } from "./response";
 import { User, UserDto } from "./user";
 
 export interface Survey {
@@ -7,7 +8,7 @@ export interface Survey {
     desc: string;
     coordinator?: UserDto;
     questions?: Question[];
-    response?: Response[];
+    surveyResponse?: SurveyResponse[];
     isOpen: boolean;
     createdAt: string;
     openedAt?: string;

@@ -35,12 +35,12 @@ export class SurveyDetailsComponent implements OnInit {
   }
 
   numOfRespondents() {
-    this.surveys$.pipe(
-      map(survey => survey?.response?.length ?? 0),
-      take(1)
-    )
-    .subscribe(count => {
-      this.respondentCount = count;
-    });
+    // this.surveys$.pipe(
+    //   map(survey => survey?.response?.length ?? 0),
+    //   take(1)
+    // )
+    // .subscribe(count => {
+    //   this.respondentCount = count;
+    // });
 
 }}

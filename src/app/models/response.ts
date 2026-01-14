@@ -1,4 +1,4 @@
-export interface Response {
+export interface SurveyResponse {
   id: number;
   surveyId: number;
   userId: string;

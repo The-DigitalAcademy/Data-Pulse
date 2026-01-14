@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ResponseService } from './../../../service/response.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from 'src/app/service/survey.service';
-import { Response } from 'src/app/models/response';
+import { SurveyResponse } from 'src/app/models/response';
 
 @Component({
   selector: 'app-survey',
@@ -20,7 +20,7 @@ export class SurveyComponent implements OnInit {
   private selected = new Map<number, number>();
 
   // 3. Final payload
-  responses!: Response;
+  surveyResponses!: SurveyResponse;
   id = 0;
 
   constructor(
@@ -56,7 +56,7 @@ export class SurveyComponent implements OnInit {
       choiceId: cID
     }));
 
-    this.responses = {
+    this.surveyResponses = {
       id: 0,
       surveyId: this.id,
       userId: '',
@@ -64,7 +64,7 @@ export class SurveyComponent implements OnInit {
       submittedAt: new Date().toISOString()
     };
 
-    return this.responseService.createResponse(this.responses).subscribe({
+    return this.responseService.createResponse(this.surveyResponses).subscribe({
       next: (res) => {
         alert('Survey Submitted! Thank you for your participation.');
         this.router.navigate(['/home']);
