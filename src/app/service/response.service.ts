@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Response } from '../models/response';
+import { Response, ResponseDto } from '../models/response';
 import { Survey } from '../models/survey';
 import { environment } from 'src/environments/environment.development';
 
@@ -21,7 +21,7 @@ export class ResponseService {
     );
   }
 
-  createResponse(resp: Response): Observable<Response>{
+  createResponse(resp: ResponseDto): Observable<Response>{
     return this.http.post<Response>(this.url+'/response', resp);
   }
 }

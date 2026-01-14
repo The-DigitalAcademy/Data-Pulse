@@ -11,7 +11,7 @@ export const selectAllSurveys = createSelector(
 );
 
 // Select survey by ID
-export const selectSurveyById = (id: number) => createSelector(selectSurveyState, (entities) => entities.surveys[id]);
+export const selectSurveyById = (id: number) => createSelector(selectSurveyState, (entities) => entities.surveys.filter(survey => survey.id == id)[0]);
 
 // Select open Surveys
 export const selectOpenSurveys = createSelector(selectAllSurveys, (surveys) =>

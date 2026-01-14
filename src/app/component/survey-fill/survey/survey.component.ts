@@ -42,16 +42,16 @@ export class SurveyComponent implements OnInit {
   ngOnInit(): void {
     this.survey.subscribe((data: any[]) => {
       this.options = data;
-      this.id = Number(this.route.snapshot.paramMap.get('id') ?? 0);
+      this.id = Number(this.route.snapshot.paramMap.get('id'));
+
+      this.selectedSurvey$ = this.store.select(selectSurveyById(this.id));
+      this.selectedSurvey$.pipe(take(1)).subscribe(survey => {
+        this.currentSurveyOpened = survey;
+        this.currentSurveyQuestions = survey.questions;
+      });
+
       this.option = data.find(o => o.id === this.id) ?? {};
     });
-
-   this.selectedSurvey$ = this.store.select(selectSurveyById(this.id));
-   this.selectedSurvey$.pipe(take(1)).subscribe(survey => {
-     console.log(`Display selected survey from store ${JSON.stringify(survey)}`);
-     this.currentSurveyOpened = survey;
-     this.currentSurveyQuestions = survey.questions;
-   });
   }
 
   // Called from the template when a radio button is clicked

@@ -3,26 +3,30 @@
     <div class="survey">
 
       <div class="survey-title">
-        <h2>{{ option.title }}</h2>
+        <h2>{{ currentSurveyOpened?.title }}</h2>
+      </div>
+
+      <div class="survey-description" *ngIf="currentSurveyOpened?.desc">
+        <p>{{ currentSurveyOpened.desc }}</p>
       </div>
 
       <div class="question-container"
-           *ngFor="let q of currentSurveyQuestions">
+           *ngFor="let q of currentSurveyQuestions; let qIndex = index">
 
         <div class="question">
-          <h4>Question: {{ q.text }}</h4>
+          <h4>{{ qIndex + 1 }}. {{ q.text }}</h4>
         </div>
 
         <div class="question-options">
           <div class="options"
-               *ngFor="let choice of q.choiceOptions">
+               *ngFor="let choice of q.choiceOptions; let i = index">
 
             <label>
               <input type="radio"
                      [name]="'q_' + q.id"
-                     [value]="choice.optionText"
-                     (change)="answerQuestion(q.id, choice?.id)">
-              {{ choice.optionText }}
+                     [value]="choice.id"
+                     (change)="answerQuestion(q.id, choice.id)">
+              {{ choice.optionText || 'Option ' + (i + 1) }}
             </label>
           </div>
         </div>
