@@ -7,15 +7,15 @@
         <a href="https://en.wikipedia.org/wiki/Historical_fiction" target="_blank">Historical</a>
     </div>
     <div class="main-page-section">
-        <div class="most-viewed-div" *ngFor="let newData of newData">
+        <div class="most-viewed-div">
             <h1 class="most-viewed-header">Closed Survey</h1>
-            <div class="most-viewed-survey-div">
+            <div class="most-viewed-survey-div" *ngFor="let newData of newData">
                 <a class="most-viewed-survey-name">{{newData.title}}</a>
                 <p class="most-viewed-survey-status" (click)="check()">Closed</p>
              </div>
         </div>
         <div class="open-surveys-div">
-            <div class="survey-open" *ngFor="let data of data">
+            <div class="survey-open" *ngFor="let data of surveys$ | async">
                 <div>
                     <img class="survey-img" src="https://wpengine.com/wp-content/uploads/2021/05/optimize-images-1024x681.jpg">
                 </div>

@@ -8,7 +8,7 @@ import { Survey } from '../models/survey';
   providedIn: 'root'
 })
 export class SurveyService {
-  private readonly url = '/api/survey';
+  private readonly url = '/api/surveys';
   constructor(
     private readonly http: HttpClient,
     private readonly auth: AuthService

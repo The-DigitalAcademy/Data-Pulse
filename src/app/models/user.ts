@@ -8,3 +8,4 @@ export interface User {
 }
 
 export type UserDto = Omit<User, 'password'>;
+export type newUserDto = Omit<User, 'id'>;
