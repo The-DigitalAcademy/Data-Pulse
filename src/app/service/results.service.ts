@@ -58,17 +58,24 @@ export class ResultsService {
     );
   }
   private aggregateResults(survey: Survey, responses: Response[]): surveyResults {
-    const questionMap = new Map<
-      number,
-      { text: string; answers: Map<number, { text: string; count: number }> }
-    >();
+    // const questionMap = new Map<
+    //   number,
+    //   { text: string; answers: Map<number, { text: string; count: number }> }
+    // >();
+
+    const questionMap = new Map<number, { 
+      text: string; 
+      answers: Map<number, { text: string; count: number }> 
+    }>();
 
     // 1. Initialize all questions + choices
     for (const q of survey.questions) {
       const answerMap = new Map<number, { text: string; count: number }>();
-      for (const c of q.choices) {
-        answerMap.set(c.id, { text: c.text, count: 0 });
+      
+      for (let i = 0; i < q.choices.length; i++) {
+        answerMap.set(i, { text: q.choices[i].text, count: 0 });
       }
+      
       questionMap.set(q.id, { text: q.text, answers: answerMap });
     }
 
