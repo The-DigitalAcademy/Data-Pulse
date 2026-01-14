@@ -7,7 +7,7 @@
       </div>
 
       <div class="question-container"
-           *ngFor="let q of option.questions">
+           *ngFor="let q of currentSurveyQuestions">
 
         <div class="question">
           <h4>Question: {{ q.text }}</h4>
@@ -15,14 +15,14 @@
 
         <div class="question-options">
           <div class="options"
-               *ngFor="let choice of q.choices">
+               *ngFor="let choice of q.choiceOptions">
 
             <label>
               <input type="radio"
                      [name]="'q_' + q.id"
-                     [value]="choice.choiceId"
-                     (change)="answerQuestion(q.id, choice.choiceId)">
-              {{ choice.text }}
+                     [value]="choice.optionText"
+                     (change)="answerQuestion(q.id, choice?.id)">
+              {{ choice.optionText }}
             </label>
           </div>
         </div>

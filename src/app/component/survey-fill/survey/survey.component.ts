@@ -3,6 +3,11 @@ import { ResponseService } from './../../../service/response.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from 'src/app/service/survey.service';
 import { SurveyResponse } from 'src/app/models/response';
+import { Store } from '@ngrx/store';
+import { selectSelectedSurveyId, selectSurveyById } from 'src/app/store/selectors/survey.selector';
+import { Observable, take } from 'rxjs';
+import { Survey } from 'src/app/models/survey';
+import { Question } from 'src/app/models/question';
 
 @Component({
   selector: 'app-survey',
@@ -10,6 +15,9 @@ import { SurveyResponse } from 'src/app/models/response';
   styleUrls: ['./survey.component.css']
 })
 export class SurveyComponent implements OnInit {
+  selectedSurvey$!: Observable<Survey>;
+  currentSurveyOpened!: Survey;
+  currentSurveyQuestions!: Question[];
 
   // 1. Data coming from the service
   survey = this.surveyService.getAll();
@@ -27,7 +35,8 @@ export class SurveyComponent implements OnInit {
     private surveyService: SurveyService,
     private route: ActivatedRoute,
     private responseService: ResponseService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) { }
 
   ngOnInit(): void {
@@ -36,10 +45,17 @@ export class SurveyComponent implements OnInit {
       this.id = Number(this.route.snapshot.paramMap.get('id') ?? 0);
       this.option = data.find(o => o.id === this.id) ?? {};
     });
+
+   this.selectedSurvey$ = this.store.select(selectSurveyById(this.id));
+   this.selectedSurvey$.pipe(take(1)).subscribe(survey => {
+     console.log(`Display selected survey from store ${JSON.stringify(survey)}`);
+     this.currentSurveyOpened = survey;
+     this.currentSurveyQuestions = survey.questions;
+   });
   }
 
   // Called from the template when a radio button is clicked
-  answerQuestion(questionId: number, choiceId: number): void {
+  answerQuestion(questionId: number, choiceId: any): void {
     this.selected.set(questionId, choiceId);
   }
 

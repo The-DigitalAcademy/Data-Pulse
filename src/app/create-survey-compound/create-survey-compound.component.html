@@ -35,7 +35,7 @@
 <!-- display questions and options -->  
   <div  *ngFor="let question of questions" class="new-question">
     <h5 class="question">{{question.text}}</h5>
-    <h5 *ngFor="let choice of question.choices">{{ choice.text }}</h5>
+    <h5 *ngFor="let choice of question.choiceOptions">{{ choice.optionText }}</h5>
   </div>
   <!-- buttons -->
 
