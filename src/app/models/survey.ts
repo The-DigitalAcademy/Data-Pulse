@@ -1,11 +1,11 @@
-import { Question } from "./question";
-import { User } from "./user";
+import { Question, QuestionDto } from "./question";
+import { User, UserDto } from "./user";
 
 export interface Survey {
     id: number;
     title: string;
     desc: string;
-    coordinator?: User;
+    coordinator?: UserDto;
     questions?: Question[];
     response?: Response[];
     isOpen: boolean;
@@ -15,3 +15,13 @@ export interface Survey {
 }
 
 export type newSurvey = Omit<Survey, 'id' | 'createdAt'>;
+
+export interface newSurveyDto {
+    title: string;
+    desc: string;
+    coordinator?: UserDto;
+    questions: QuestionDto[];
+    isOpen: boolean;
+    openedAt?: string;
+    closedAt?: string;
+}

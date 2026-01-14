@@ -1,9 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { newSurvey, Survey } from 'src/app/models/survey';
+import { newSurvey, newSurveyDto, Survey } from 'src/app/models/survey';
 
 export const createSurvey = createAction(
   '[Survey Page] Create Survey',
-  props<{ survey: newSurvey }>()
+  props<{ survey: newSurveyDto }>()
 );
 
 export const loadSurveys = createAction(
