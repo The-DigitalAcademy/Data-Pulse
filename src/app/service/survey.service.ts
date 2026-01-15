@@ -63,7 +63,7 @@ export class SurveyService {
   delete(id: number): Observable<void>{
     this.requireCoordinator();
 
-    return this.http.delete<void>(`${this.url}/${id}`);
+    return this.http.delete<void>(`${this.url}/surveys/${id}`);
 
 
   }
